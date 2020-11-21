@@ -1,0 +1,7 @@
+.body {
+  background-color: #000;
+  min-width: 1200px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}

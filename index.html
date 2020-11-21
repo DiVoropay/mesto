@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,99 +8,118 @@
   <link rel="stylesheet" href="./pages/index.css">
   <title>Место</title>
 </head>
-<body class="page">
-  <header class="header">
-    <img class="logo" src="./images/logo/logo-mesto.svg" alt="Логотип 'Место Раша'">
-  </header>
-  <main class="content">
-    <section class="profile">
-      <img class="profile__avatar" src="./images/profile/avatar.jpg" alt="Фотография профиля">
-      <div class="profile__info">
-        <button class="profile__edit-button">
 
-        </button>
-        <h1 class="profile__name">
-          Жак-Ив-Кусто
-        </h1>
-        <p class="profile__description">
-          Исследователь океана
-        </p>
-      </div>
-      <button class="profile__add-button">
-
-      </button>
-      <div class="profile__edit-form">
-        <h3 class="profile__edit-title">
+<body class="body">
+  <div class="page">
+    <header class="header page__header">
+      <img class="header__logo" src="./images/logo/logo-mesto.svg" alt="Логотип 'Место Раша'">
+    </header>
+    <div class="popup popup_opened">
+      <div class="popup__container">
+        <h3 class="popup__title">
           Редактировать профиль
         </h3>
-        <input class="profile__edit-name">
-        <input class="profile__edit-description">
-        <button class="profile__save-button">
+        <input class="popup__edit-name">
+        <input class="popup__edit-description">
+        <button class="popup__save-button">
           Сохранить
         </button>
       </div>
-    </section>
-    <section class="elements">
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-hotel.jpg" alt="Название места">
-        <h2 class="element__title">
-          Гостиница "Таганрог"
-        </h2>
-        <button class="element__like">
+    </div>
+    <main class="content">
+      <section class="profile content__profile">
+        <img class="profile__avatar" src="./images/element/taganrog-park-gorkogo.jpg" alt="Фотография профиля">
+        <div class="profile__info">
+          <div class="profile__flex-row">
+            <h1 class="profile__name">
+              Жак-Ив Кусто
+            </h1>
+            <div class="profile__edit-button">
 
-        </button>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-licey-chehova.jpg" alt="Название места">
-        <h2 class="element__title">
-          Лицей имени А.П.Чехова
-        </h2>
-        <button class="element__like">
+            </div>
+          </div>
+          <p class="profile__description">
+            Исследователь океана
+          </p>
+        </div>
+        <div class="profile__add-button">
 
-        </button>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-tum.jpg" alt="Название места">
-        <h2 class="element__title">
-          Таганрогский универмаг
-        </h2>
-        <button class="element__like">
+        </div>
+      </section>
+      <section class="elements">
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-hotel.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title">
+              Гостиница "Таганрог"
+            </h2>
+            <div class="element__like">
 
-        </button>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-cinema-unost.jpg" alt="Название места">
-        <h2 class="element__title">
-          Кинотеатр "Юность"
-        </h2>
-        <button class="element__like">
+            </div>
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-licey-chehova.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title">
+              Лицей имени А.П.Чехова
+            </h2>
+            <div class="element__like">
 
-        </button>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-park-gorkogo.jpg" alt="Название места">
-        <h2 class="element__title">
-          Парк имени М.Горького
-        </h2>
-        <button class="element__like">
+            </div>
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-tum.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title">
+              Таганрогский универмаг
+            </h2>
+            <div class="element__like">
 
-        </button>
-      </article>
-      <article class="element">
-        <img class="element__image" src="./images/element/taganrog-balka-smerti.jpg" alt="Название места">
-        <h2 class="element__title">
-          Балка смерти
-        </h2>
-        <button class="element__like">
+            </div>
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-cinema-unost.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title">
+              Кинотеатр "Юность"
+            </h2>
+            <div class="element__like">
 
-        </button>
-      </article>
-    </section>
-  </main>
-  <footer class="footer">
-    <p class="footer__copyright">
-      &copy; 2020 Mesto Russia by Dmitriy Voropay
-    </p>
-  </footer>
+            </div>
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-park-gorkogo.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title" title="Парк имени М.Горького">
+              Парк имени М.Горького
+            </h2>
+            <div class="element__like element__like_active">
+
+            </div>
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="./images/element/taganrog-balka-smerti.jpg" alt="Название места">
+          <div class="element__description">
+            <h2 class="element__title">
+              Балка смерти
+            </h2>
+            <div class="element__like">
+
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer class="footer page__footer">
+      <p class="footer__copyright">
+        &copy; 2020 Mesto Russia by Dmitriy Voropay
+      </p>
+    </footer>
+  </div>
 </body>
 </html>
