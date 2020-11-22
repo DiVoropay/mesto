@@ -5,9 +5,9 @@
   background-repeat: no-repeat;
   min-width: 22px;
   height: 18px;
-  cursor: pointer;
 }
 
 .element__like:hover {
+  cursor: pointer;
   opacity: .5;
 }
