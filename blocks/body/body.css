@@ -1,9 +1,10 @@
 .body {
+  min-width: 320px;
   background-color: #000;
   display: flex;
   justify-content: center;
 
-  /*сглаживаем шрифты*/
+  /*сглаживаем шрифты всей страницы*/
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
