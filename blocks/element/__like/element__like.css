@@ -3,11 +3,13 @@
   background-size: auto;
   background-position: center;
   background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
   min-width: 22px;
   height: 18px;
 }
 
-.element__like:hover {
-  cursor: pointer;
-  opacity: .5;
+.element__like:focus {
+  outline-style: none;
+  opacity: .6;
 }

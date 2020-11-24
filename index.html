@@ -14,32 +14,17 @@
     <header class="header page__header">
       <img class="header__logo" src="./images/logo/logo-mesto.svg" alt="Логотип 'Место Раша'">
     </header>
-    <div class="popup">
-      <div class="popup__container">
-        <div class="popup__close"></div>
-        <h3 class="popup__title">
-          Редактировать профиль
-        </h3>
-        <input class="popup__edit-name" placeholder="Имя">
-        <input class="popup__edit-description" placeholder="О себе">
-        <button class="popup__save-button">
-          Сохранить
-        </button>
-      </div>
-    </div>
     <main class="content">
       <section class="profile content__profile">
         <img class="profile__avatar" src="./images/profile/avatar.jpg" alt="Фотография профиля">
         <div class="profile__info">
           <div class="profile__flex-row">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <div class="profile__edit-button"></div>
+            <button class="profile__edit-button page-hover" type="button"></button>
           </div>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <div class="profile__add-button">
-
-        </div>
+        <button class="profile__add-button page-hover" type="button"></button>
       </section>
       <section class="elements">
         <article class="element">
@@ -48,9 +33,9 @@
             <h2 class="element__title">
               Гостиница "Таганрог"
             </h2>
-            <div class="element__like">
+            <button class="element__like page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
         <article class="element">
@@ -59,9 +44,9 @@
             <h2 class="element__title" title="Лицей имени А.П.Чехова">
               Лицей имени А.П.Чехова
             </h2>
-            <div class="element__like">
+            <button class="element__like page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
         <article class="element">
@@ -70,9 +55,9 @@
             <h2 class="element__title" title="Таганрогский универмаг">
               Таганрогский универмаг
             </h2>
-            <div class="element__like">
+            <button class="element__like page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
         <article class="element">
@@ -81,9 +66,9 @@
             <h2 class="element__title" title='"Кинотеатр "Юность"'>
               Кинотеатр "Юность"
             </h2>
-            <div class="element__like">
+            <button class="element__like page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
         <article class="element">
@@ -92,9 +77,9 @@
             <h2 class="element__title" title="Парк имени М.Горького">
               Парк имени М.Горького
             </h2>
-            <div class="element__like element__like_active">
+            <button class="element__like element__like_active page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
         <article class="element">
@@ -103,9 +88,9 @@
             <h2 class="element__title" title="Балка смерти">
               Балка смерти
             </h2>
-            <div class="element__like">
+            <button class="element__like page-hover">
 
-            </div>
+            </button>
           </div>
         </article>
       </section>
@@ -115,8 +100,21 @@
         &copy; 2020 Mesto Russia by Dmitriy Voropay
       </p>
     </footer>
+    <div class="popup">
+      <form class="popup__container" onsubmit="return false">
+        <button class="popup__close page-hover" type="reset"></button>
+        <h2 class="popup__title">
+          Редактировать профиль
+        </h2>
+        <input class="popup__edit-name popup__input-text" type="text" name="fistname" placeholder="Имя">
+        <input class="popup__edit-description popup__input-text" type="text" name="about" placeholder="О себе">
+        <button class="popup__save-button page-hover" type="submit">
+          Сохранить
+        </button>
+      </form>
+    </div>
   </div>
-  <script src="script.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 
 </html>

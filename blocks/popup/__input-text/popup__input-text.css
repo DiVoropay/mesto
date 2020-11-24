@@ -1,4 +1,5 @@
-.popup__edit-description {
+.popup__input-text {
+  font-family: inherit;
   font-weight: normal;
   font-size: 14px;
   line-height: 2;
