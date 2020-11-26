@@ -2,6 +2,7 @@
 @import url(../vendor/fonts/fonts.css);
 
 @import url(../blocks/page-hover/page-hover.css);
+@import url(../blocks/page-input/page-input.css);
 
 @import url(../blocks/body/body.css);
 
@@ -20,8 +21,6 @@
 @import url(../blocks/popup/__edit-name/popup__edit-name.css);
 @import url(../blocks/popup/__edit-description/popup__edit-description.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
-@import url(../blocks/popup/__input-text/popup__input-text.css);
-
 
 @import url(../blocks/content/__profile/content__profile.css);
 

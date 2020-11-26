@@ -33,7 +33,7 @@
             <h2 class="element__title">
               Гостиница "Таганрог"
             </h2>
-            <button class="element__like page-hover">
+            <button class="element__like page-hover" type="button">
 
             </button>
           </div>
@@ -44,7 +44,7 @@
             <h2 class="element__title" title="Лицей имени А.П.Чехова">
               Лицей имени А.П.Чехова
             </h2>
-            <button class="element__like page-hover">
+            <button class="element__like page-hover" type="button">
 
             </button>
           </div>
@@ -55,7 +55,7 @@
             <h2 class="element__title" title="Таганрогский универмаг">
               Таганрогский универмаг
             </h2>
-            <button class="element__like page-hover">
+            <button class="element__like page-hover" type="button">
 
             </button>
           </div>
@@ -66,7 +66,7 @@
             <h2 class="element__title" title='"Кинотеатр "Юность"'>
               Кинотеатр "Юность"
             </h2>
-            <button class="element__like page-hover">
+            <button class="element__like page-hover" type="button">
 
             </button>
           </div>
@@ -77,7 +77,7 @@
             <h2 class="element__title" title="Парк имени М.Горького">
               Парк имени М.Горького
             </h2>
-            <button class="element__like element__like_active page-hover">
+            <button class="element__like element__like_active page-hover" type="button">
 
             </button>
           </div>
@@ -88,7 +88,7 @@
             <h2 class="element__title" title="Балка смерти">
               Балка смерти
             </h2>
-            <button class="element__like page-hover">
+            <button class="element__like page-hover" type="button">
 
             </button>
           </div>
@@ -101,13 +101,13 @@
       </p>
     </footer>
     <div class="popup">
-      <form class="popup__container" onsubmit="return false">
+      <form class="popup__container" name="edit-profile">
         <button class="popup__close page-hover" type="reset"></button>
         <h2 class="popup__title">
           Редактировать профиль
         </h2>
-        <input class="popup__edit-name popup__input-text" type="text" name="fistname" placeholder="Имя">
-        <input class="popup__edit-description popup__input-text" type="text" name="about" placeholder="О себе">
+        <input class="popup__edit-name page-input" type="text" name="fistname" placeholder="Имя">
+        <input class="popup__edit-description page-input" type="text" name="about" placeholder="О себе">
         <button class="popup__save-button page-hover" type="submit">
           Сохранить
         </button>
