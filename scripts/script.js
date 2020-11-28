@@ -24,6 +24,8 @@ function fillPopup() {
 
 // Сохраняем новые данные пользователя
 function saveEdit(evt) {
+  evt.preventDefault();
+
   nameProfile.textContent = editNameProfile.value;
   descrProfile.textContent = editDescrProfile.value;
 
