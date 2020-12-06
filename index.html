@@ -15,6 +15,7 @@
       <img class="header__logo" src="./images/logo/logo-mesto.svg" alt="Логотип 'Место Раша'">
     </header>
     <main class="content">
+
       <section class="profile content__profile">
         <img class="profile__avatar" src="./images/profile/avatar.jpg" alt="Фотография профиля">
         <div class="profile__info">
@@ -26,80 +27,19 @@
         </div>
         <button class="profile__add-button page-hover" type="button"></button>
       </section>
+
       <section class="elements">
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-hotel.jpg" alt='Гостиница "Таганрог"'>
-          <div class="element__description" title='Гостиница "Таганрог"'>
-            <h2 class="element__title">
-              Гостиница "Таганрог"
-            </h2>
-            <button class="element__like page-hover" type="button">
 
-            </button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-licey-chehova.jpg" alt="Лицей имени А.П.Чехова">
-          <div class="element__description">
-            <h2 class="element__title" title="Лицей имени А.П.Чехова">
-              Лицей имени А.П.Чехова
-            </h2>
-            <button class="element__like page-hover" type="button">
-
-            </button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-tum.jpg" alt="Таганрогский универмаг">
-          <div class="element__description">
-            <h2 class="element__title" title="Таганрогский универмаг">
-              Таганрогский универмаг
-            </h2>
-            <button class="element__like page-hover" type="button">
-
-            </button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-cinema-unost.jpg" alt='"Кинотеатр "Юность"'>
-          <div class="element__description">
-            <h2 class="element__title" title='"Кинотеатр "Юность"'>
-              Кинотеатр "Юность"
-            </h2>
-            <button class="element__like page-hover" type="button">
-
-            </button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-park-gorkogo.jpg" alt="Парк имени М.Горького">
-          <div class="element__description">
-            <h2 class="element__title" title="Парк имени М.Горького">
-              Парк имени М.Горького
-            </h2>
-            <button class="element__like element__like_active page-hover" type="button">
-
-            </button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="./images/element/taganrog-balka-smerti.jpg" alt="Балка смерти">
-          <div class="element__description">
-            <h2 class="element__title" title="Балка смерти">
-              Балка смерти
-            </h2>
-            <button class="element__like page-hover" type="button">
-
-            </button>
-          </div>
-        </article>
       </section>
+
     </main>
+
     <footer class="footer page__footer">
       <p class="footer__copyright">
         &copy; 2020 Mesto Russia by Dmitriy Voropay
       </p>
     </footer>
+
     <div class="popup">
       <form class="popup__container" name="edit-profile">
         <button class="popup__close page-hover" type="reset"></button>
@@ -113,7 +53,43 @@
         </button>
       </form>
     </div>
+
+    <div class="popup">
+      <form class="popup__container" name="add-card">
+        <button class="popup__close page-hover" type="reset"></button>
+        <h2 class="popup__title">
+          Новое место
+        </h2>
+        <input class="popup__edit-name page-input" type="text" name="place-name" placeholder="Название">
+        <input class="popup__edit-description page-input" type="text" name="link-image" placeholder="Ссылка на картинку">
+        <button class="popup__save-button page-hover" type="submit">
+          Создать
+        </button>
+      </form>
+    </div>
+
+    <div class="popup">
+      <div class="viewer">
+        <figure class="viewer__container">
+          <button class="popup__close page-hover" type="reset"></button>
+          <img class="viewer__image" src="#" alt="">
+          <figcaption class="viewer__title"></figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
+
+  <template id="element-template">
+    <article class="element">
+      <img class="element__image" src="#" alt="">
+      <div class="element__description">
+        <h2 class="element__title" title="">
+        </h2>
+        <button class="element__like page-hover" type="button"></button>
+      </div>
+      <button class="element__trash page-hover" type="button"></button>
+    </article>
+  </template>
   <script src="./scripts/script.js"></script>
 </body>
 
