@@ -27,13 +27,13 @@ const initialCards = [
 ];
 
 // Передаем классы в переменные
-const elements=document.querySelector('.elements');
+const elements = document.querySelector('.elements');
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileForm = document.forms['edit-profile'];
 const editProfileClose = editProfileForm.querySelector('.popup__close');
-const editNameProfile = editProfileForm.querySelector('.popup__edit-name');
-const editDescrProfile = editProfileForm.querySelector('.popup__edit-description');
+const editProfileName = editProfileForm.querySelector('.popup__edit-name');
+const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
 const nameProfile = document.querySelector('.profile__name');
 const descrProfile = document.querySelector('.profile__description');
@@ -45,10 +45,15 @@ const addCardClose = addCardForm.querySelector('.popup__close');
 const viewerPopup = document.querySelector('.viewer');
 const viewerClose = viewerPopup.querySelector('.popup__close');
 
-// Создаем новую карточку по наименованию ссылке на изображение
-function addElement(nameValue, linkValue) {
+// Получаем разметку карточки по наименованию идентификатору тега
+function getMarkupElement() {
   const elementTemplate = document.querySelector('#element-template').content;
-  const element = elementTemplate.cloneNode(true);
+  return elementTemplate.cloneNode(true);
+}
+
+// Заполняем новую карточку по наименованию и ссылке на изображение
+function addElement(nameValue, linkValue) {
+  const element = getMarkupElement();
 
   element.querySelector('.element__title').textContent = nameValue;
   element.querySelector('.element__title').title = nameValue;
@@ -59,7 +64,7 @@ function addElement(nameValue, linkValue) {
     evt.target.classList.toggle('element__like_active');
   });
 
-  element.querySelector('.element__image').addEventListener('click', function(evt){
+  element.querySelector('.element__image').addEventListener('click', function(){
     viewImage(nameValue, linkValue);
   });
 
@@ -92,8 +97,8 @@ function renderPopupViewer() {
 
 // Заполняем поля текущими данными
 function fillPopup() {
-  editNameProfile.value = nameProfile.textContent;
-  editDescrProfile.value = descrProfile.textContent;
+  editProfileName.value = nameProfile.textContent;
+  editProfileDescr.value = descrProfile.textContent;
 
   renderPopup();
 }
@@ -102,8 +107,8 @@ function fillPopup() {
 function saveEdit(evt) {
   evt.preventDefault();
 
-  nameProfile.textContent = editNameProfile.value;
-  descrProfile.textContent = editDescrProfile.value;
+  nameProfile.textContent = editProfileName.value;
+  descrProfile.textContent = editProfileDescr.value;
 
   renderPopup();
 }

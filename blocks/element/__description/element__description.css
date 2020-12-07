@@ -4,4 +4,5 @@
   justify-content: space-between;
   margin-left: 21px;
   margin-right: 18px;
+  min-width: calc(282px - 21px - 18px);
 }
