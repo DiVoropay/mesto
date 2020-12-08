@@ -80,27 +80,17 @@ initialCards.forEach(function(item){
   addElement (item.name, item.link);
 });
 
-// Открываем и закрываем форму редактирования профиля
-function renderPopup() {
-  editProfileForm.parentElement.classList.toggle('popup_opened');
-}
-
-// Открываем и закрываем форму добавления карточки
-function renderPopupCard() {
-  addCardForm.parentElement.classList.toggle('popup_opened');
-}
-
-//  Открываем и закрываем окно просмотра элементов
-function renderPopupViewer() {
-  viewerPopup.parentElement.classList.toggle('popup_opened');
+// Открываем и закрываем попапы
+function renderPopup(activeForm) {
+  activeForm.parentElement.classList.toggle('popup_opened');
 }
 
 // Заполняем поля текущими данными
-function fillPopup() {
+function fillPopup(activeForm) {
   editProfileName.value = nameProfile.textContent;
   editProfileDescr.value = descrProfile.textContent;
 
-  renderPopup();
+  renderPopup(activeForm);
 }
 
 // Сохраняем новые данные пользователя
@@ -110,7 +100,7 @@ function saveEdit(evt) {
   nameProfile.textContent = editProfileName.value;
   descrProfile.textContent = editProfileDescr.value;
 
-  renderPopup();
+  renderPopup(editProfileForm);
 }
 
 // Сохраняем новый элемент
@@ -125,7 +115,7 @@ function saveCard(evt) {
   addName.value='';
   addLink.value='';
 
-  renderPopupCard();
+  renderPopup(addCardForm);
 }
 
 // Заполняем окно просмотра данными
@@ -135,15 +125,30 @@ function viewImage(imageTitle, imageLink) {
   viewerPopup.querySelector('.viewer__image').src = imageLink;
   viewerPopup.querySelector('.viewer__image').alt = imageTitle;
 
-  viewerClose.addEventListener('click', renderPopupViewer);
-  renderPopupViewer();
+  viewerClose.addEventListener('click', function () {
+    renderPopup(viewerPopup)
+  });
+  renderPopup(viewerPopup);
 }
 
 // Слушаем клики по кнопкам
-editProfileBtn.addEventListener('click', fillPopup);
-editProfileClose.addEventListener('click', renderPopup);
+editProfileBtn.addEventListener('click',function () {
+  fillPopup(editProfileForm)
+});
+
+editProfileClose.addEventListener('click',  function () {
+  renderPopup(editProfileForm)
+});
+
 editProfileForm.addEventListener('submit', saveEdit);
 
-addCardBtn.addEventListener('click', renderPopupCard);
-addCardClose.addEventListener('click', renderPopupCard);
+
+addCardBtn.addEventListener('click', function () {
+  renderPopup(addCardForm)
+});
+
+addCardClose.addEventListener('click', function () {
+  renderPopup(addCardForm)
+});
+
 addCardForm.addEventListener('submit', saveCard);
