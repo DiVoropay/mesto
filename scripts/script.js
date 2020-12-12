@@ -52,32 +52,42 @@ function getMarkupElement() {
 }
 
 // Заполняем новую карточку по наименованию и ссылке на изображение
-function addElement(nameValue, linkValue) {
-  const element = getMarkupElement();
+function makeNewElement(nameValue, linkValue) {
+  const element = getMarkupElement(); // получаем разметку элемента
+  const elementTitle = element.querySelector('.element__title'); // находим в полученной разметке заголовок
+  const elementImage = element.querySelector('.element__image'); // находим в полученной разметке изображение
+  const elementTrashBtn = element.querySelector('.element__trash'); // находим в полученной разметке изображение
+  const elementLikeBtn = element.querySelector('.element__like'); // находим в полученной разметке изображение
 
-  element.querySelector('.element__title').textContent = nameValue;
-  element.querySelector('.element__title').title = nameValue;
-  element.querySelector('.element__image').alt = nameValue;
-  element.querySelector('.element__image').src = linkValue;
+  elementTitle.textContent = nameValue; // записываем заголовок нового элемента
+  elementTitle.title = nameValue; // накидываем всплывающий тайтл для случаев длинных заголовков
+  elementImage.alt = nameValue; // накидываем альт изображению
+  elementImage.src = linkValue; // записываем путь к изображению
 
-  element.querySelector('.element__like').addEventListener('click', function(evt){
+  // Цепляем слушателей событий на кнопки элемента
+  elementLikeBtn.addEventListener('click', function(evt){
     evt.target.classList.toggle('element__like_active');
   });
-
-  element.querySelector('.element__image').addEventListener('click', function(){
+  elementImage.addEventListener('click', function(){
     viewImage(nameValue, linkValue);
   });
-
-  element.querySelector('.element__trash').addEventListener('click', function(evt){
-    evt.target.parentElement.remove();
+  elementTrashBtn.addEventListener('click', function(evt){
+    evt.target.closest('.element').remove();
   });
 
-  elements.prepend(element);
+  return element;
+}
+
+// Универсальная функция добавления элемента в начало секции
+function addElementToSection(sectionPage, newElement) {
+  sectionPage.prepend(newElement);
 }
 
 // Для певроначального массива карточек запускаем функцию генерации кода
 initialCards.forEach(function(item){
-  addElement (item.name, item.link);
+  const makedElement = makeNewElement(item.name, item.link);
+
+  addElementToSection(elements, makedElement);
 });
 
 // Открываем и закрываем попапы
@@ -110,7 +120,9 @@ function saveCard(evt) {
   const addName = addCardForm.querySelector('.popup__edit-name');
   const addLink = addCardForm.querySelector('.popup__edit-description');
 
-  addElement(addName.value, addLink.value);
+  const makedElement = makeNewElement(addName.value, addLink.value);
+
+  addElementToSection(elements, makedElement);
 
   addName.value='';
   addLink.value='';
