@@ -41,13 +41,18 @@ const descrProfile = document.querySelector('.profile__description');
 const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];
 const addCardClose = addCardForm.querySelector('.popup__close');
+const addCardName = addCardForm.querySelector('.popup__edit-name');
+const addCardLink = addCardForm.querySelector('.popup__edit-description');
 
 const viewerPopup = document.querySelector('.viewer');
 const viewerClose = viewerPopup.querySelector('.popup__close');
+const viewerTitle = viewerPopup.querySelector('.viewer__title');
+const viewerImage = viewerPopup.querySelector('.viewer__image');
 
 // Получаем разметку карточки по наименованию идентификатору тега
 function getMarkupElement() {
   const elementTemplate = document.querySelector('#element-template').content;
+
   return elementTemplate.cloneNode(true);
 }
 
@@ -78,12 +83,12 @@ function makeNewElement(nameValue, linkValue) {
   return element;
 }
 
-// Универсальная функция добавления элемента в начало секции
+// Универсальная функция добавления переданного элемента в начало переданной секции
 function addElementToSection(sectionPage, newElement) {
   sectionPage.prepend(newElement);
 }
 
-// Для певроначального массива карточек запускаем функцию генерации кода
+// Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function(item){
   const makedElement = makeNewElement(item.name, item.link);
 
@@ -92,10 +97,14 @@ initialCards.forEach(function(item){
 
 // Открываем и закрываем попапы
 function renderPopup(activeForm) {
-  activeForm.parentElement.classList.toggle('popup_opened');
+  activeForm.parentElement.classList.add('popup_opened');
+}
+function hidePopup(activeForm) {
+  activeForm.parentElement.classList.remove('popup_opened');
 }
 
-// Заполняем поля текущими данными
+
+// Заполняем поля формы редактирования профиля текущими данными
 function fillPopup(activeForm) {
   editProfileName.value = nameProfile.textContent;
   editProfileDescr.value = descrProfile.textContent;
@@ -110,36 +119,30 @@ function saveEdit(evt) {
   nameProfile.textContent = editProfileName.value;
   descrProfile.textContent = editProfileDescr.value;
 
-  renderPopup(editProfileForm);
+  hidePopup(editProfileForm);
 }
 
 // Сохраняем новый элемент
 function saveCard(evt) {
   evt.preventDefault();
 
-  const addName = addCardForm.querySelector('.popup__edit-name');
-  const addLink = addCardForm.querySelector('.popup__edit-description');
+  const makedElement = makeNewElement(addCardName.value, addCardLink.value); // формируем элемент из инпутов формы добавления элемента
 
-  const makedElement = makeNewElement(addName.value, addLink.value);
+  addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
 
-  addElementToSection(elements, makedElement);
+  addCardName.value = ''; // очищаем поля формы
+  addCardLink.value = ''; // очищаем поля формы
 
-  addName.value='';
-  addLink.value='';
-
-  renderPopup(addCardForm);
+  hidePopup(addCardForm);
 }
 
 // Заполняем окно просмотра данными
 function viewImage(imageTitle, imageLink) {
 
-  viewerPopup.querySelector('.viewer__title').textContent = imageTitle;
-  viewerPopup.querySelector('.viewer__image').src = imageLink;
-  viewerPopup.querySelector('.viewer__image').alt = imageTitle;
+  viewerTitle.textContent = imageTitle;
+  viewerImage.src = imageLink;
+  viewerImage.alt = imageTitle;
 
-  viewerClose.addEventListener('click', function () {
-    renderPopup(viewerPopup)
-  });
   renderPopup(viewerPopup);
 }
 
@@ -149,7 +152,7 @@ editProfileBtn.addEventListener('click',function () {
 });
 
 editProfileClose.addEventListener('click',  function () {
-  renderPopup(editProfileForm)
+  hidePopup(editProfileForm)
 });
 
 editProfileForm.addEventListener('submit', saveEdit);
@@ -160,7 +163,12 @@ addCardBtn.addEventListener('click', function () {
 });
 
 addCardClose.addEventListener('click', function () {
-  renderPopup(addCardForm)
+  hidePopup(addCardForm)
 });
 
 addCardForm.addEventListener('submit', saveCard);
+
+
+viewerClose.addEventListener('click', function () {
+  hidePopup(viewerPopup)
+});
