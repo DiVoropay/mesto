@@ -1,0 +1,11 @@
+.popup__save-button_inactive {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+  opacity: .2;
+}
+
+.popup__save-button_inactive:hover {
+  cursor: auto;
+  opacity: .2
+}
