@@ -41,32 +41,40 @@
     </footer>
 
     <div class="popup">
-      <form class="popup__container" name="edit-profile">
-        <button class="popup__close page-hover" type="reset"></button>
-        <h2 class="popup__title">
+      <form class="form popup__container" name="edit-profile" novalidate>
+        <button class="form__reset popup__close page-hover" type="reset"></button>
+        <h2 class="form__title popup__title">
           Редактировать профиль
         </h2>
-        <input class="popup__edit-name page-input" type="text" name="fistname" id="fistname" placeholder="Имя">
-        <span class="popup__input-error fistname-error">Ошибка ввода</span>
-        <input class="popup__edit-description page-input" type="text" name="about" id="about" placeholder="О себе">
-        <span class="popup__input-error about-error">Ошибка ввода</span>
-        <button class="popup__save-button page-hover" type="submit">
+        <label class="form__field">
+          <input class="form__input popup__edit-name" type="text" name="firstname" id="firstname" placeholder="Имя" minlength="2" maxlength="40" required>
+          <span class="form__tip firstname-error">Ошибка ввода</span>
+        </label>
+        <label class="form__field">
+          <input class="form__input popup__edit-description" type="text" name="about" id="about" placeholder="О себе" minlength="2" maxlength="200" required>
+          <span class="form__tip about-error">Ошибка ввода</span>
+        </label>
+        <button class="form__button-submit popup__save-button page-hover" type="submit">
           Сохранить
         </button>
       </form>
     </div>
 
     <div class="popup">
-      <form class="popup__container" name="add-card">
-        <button class="popup__close page-hover" type="reset"></button>
-        <h2 class="popup__title">
+      <form class="form popup__container" name="add-card" novalidate>
+        <button class="form__reset popup__close page-hover" type="reset"></button>
+        <h2 class="form__title popup__title">
           Новое место
         </h2>
-        <input class="popup__edit-name page-input_error page-input" type="text" name="place-name" id="place-name" placeholder="Название">
-        <span class="popup__input-error place-name-error">Ошибка ввода</span>
-        <input class="popup__edit-description page-input" type="text" name="link-image" id="link-image" placeholder="Ссылка на картинку">
-        <span class="popup__input-error link-image-error">Ошибка ввода</span>
-        <button class="popup__save-button popup__save-button_inactive page-hover" type="submit">
+        <label class="form__field">
+          <input class="form__input popup__edit-name" type="text" name="place-name" id="place-name" placeholder="Название" minlength="2" maxlength="30" required>
+          <span class="form__tip place-name-error">Ошибка ввода</span>
+        </label>
+        <label class="form__field">
+          <input class="form__input popup__edit-description" type="url" name="link-image" id="link-image" placeholder="Ссылка на картинку" required>
+          <span class="form__tip link-image-error">Ошибка ввода</span>
+        </label>
+        <button class="form__button-submit popup__save-button page-hover" type="submit">
           Создать
         </button>
       </form>

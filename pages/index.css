@@ -25,6 +25,13 @@
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__save-button/_inactive/popup__save-button_inactive.css);
 
+@import url(../blocks/form);
+@import url(../blocks/form/__field/form__field.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__input/_error/form__input_error.css);
+@import url(../blocks/form/__tip/form__tip.css);
+@import url(../blocks/form/__tip/_active/form__tip_active.css);
+
 @import url(../blocks/viewer/viewer.css);
 @import url(../blocks/viewer/__container/viewer__container.css);
 @import url(../blocks/viewer/__image/viewer__image.css);
