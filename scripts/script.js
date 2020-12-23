@@ -28,7 +28,7 @@ function getMarkupElement() {
   const elementTemplate = document.querySelector('#element-template').content;
 
   return elementTemplate.cloneNode(true);
-}
+};
 
 // Заполняем новую карточку по наименованию и ссылке на изображение
 function makeNewElement(nameValue, linkValue) {
@@ -55,12 +55,12 @@ function makeNewElement(nameValue, linkValue) {
   });
 
   return element;
-}
+};
 
 // Универсальная функция добавления переданного элемента в начало переданной секции
 function addElementToSection(sectionPage, newElement) {
   sectionPage.prepend(newElement);
-}
+};
 
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function(item){
@@ -69,14 +69,38 @@ initialCards.forEach(function(item){
   addElementToSection(elements, makedElement);
 });
 
-// Открываем и закрываем попапы
+// Открываем попапы
 function renderPopup(activeForm) {
-  activeForm.parentElement.classList.add('popup_opened');
-}
-function hidePopup(activeForm) {
-  activeForm.parentElement.classList.remove('popup_opened');
-}
+  activeForm.closest('.popup').classList.add('popup_opened');
 
+  activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
+  window.addEventListener('keydown', checkPressEsc);
+};
+
+// Закрываем попапы
+function hidePopup(activeForm) {
+  activeForm.closest('.popup').classList.remove('popup_opened');
+
+  activeForm.closest('.popup').removeEventListener('click', checkClickOverlay);
+  window.removeEventListener('keydown', checkPressEsc);
+};
+
+//Проверяем клик был за пределами формы или по форме.
+function checkClickOverlay(evt) {
+  const isForm = evt.target.closest('.form');
+  if (!isForm) {
+    hidePopup(evt.target);
+  };
+};
+
+// Проверяем нажатие Escape
+function checkPressEsc(key) {
+  if (key.code === 'Escape') {
+    console.log(key.target);
+    const openedPopup = document.querySelector('.popup_opened');
+    hidePopup(openedPopup);
+  };
+};
 
 // Заполняем поля формы редактирования профиля текущими данными
 function fillPopup(activeForm) {
@@ -84,7 +108,7 @@ function fillPopup(activeForm) {
   editProfileDescr.value = descrProfile.textContent;
 
   renderPopup(activeForm);
-}
+};
 
 // Сохраняем новые данные пользователя
 function saveEdit(evt) {
@@ -94,7 +118,7 @@ function saveEdit(evt) {
   descrProfile.textContent = editProfileDescr.value;
 
   hidePopup(editProfileForm);
-}
+};
 
 // Сохраняем новый элемент
 function saveCard(evt) {
@@ -108,7 +132,7 @@ function saveCard(evt) {
   addCardLink.value = ''; // очищаем поля формы
 
   hidePopup(addCardForm);
-}
+};
 
 // Заполняем окно просмотра данными
 function viewImage(imageTitle, imageLink) {
@@ -118,7 +142,7 @@ function viewImage(imageTitle, imageLink) {
   viewerImage.alt = imageTitle;
 
   renderPopup(viewerPopup);
-}
+};
 
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click',function () {
