@@ -2,7 +2,7 @@
 
 // Отображем поле с текстом ошибки поля ввода
 function showInputError(formElement, inputElement, errorMessage, settings) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
@@ -10,7 +10,7 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
 
 // Скрываем поле с текстом ошибки поля ввода
 function hideInputError(formElement, inputElement, settings) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.remove(settings.inputErrorClass);
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
@@ -74,6 +74,7 @@ function enableValidation(settings) {
   });
 };
 
+// Описываем настройки необходимые для валидации форм
 const settingsPage = {
   formSelector: '.form', // класс форм на странице
   inputSelector: '.form__input', // класс полей ввода внутри форм
