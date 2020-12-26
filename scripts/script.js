@@ -1,4 +1,4 @@
-// в файле initialCards.js задаем первоначальный массив initialCards с элементами
+// в файле initialCards.js задаем первоначальный массив initialCards с элементами карточек
 
 // Передаем классы в переменные
 const elements = document.querySelector('.elements');
@@ -128,8 +128,7 @@ function saveCard(evt) {
 
   addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
 
-  addCardName.value = ''; // очищаем поля формы
-  addCardLink.value = ''; // очищаем поля формы
+  evt.target.reset(); // очищаем поля формы
 
   hidePopup(addCardForm);
 };
