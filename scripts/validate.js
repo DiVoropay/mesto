@@ -1,38 +1,38 @@
 // Скрипт "живой" валидации форм страницы
 
 // Отображем поле с текстом ошибки поля ввода
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('form__input_error');
+  inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add('form__tip_active');
+  errorElement.classList.add(settings.errorClass);
 };
 
 // Скрываем поле с текстом ошибки поля ввода
-function hideInputError(formElement, inputElement) {
+function hideInputError(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('form__input_error');
-  errorElement.classList.remove('form__tip_active');
+  inputElement.classList.remove(settings.inputErrorClass);
+  errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
 };
 
-// Проверяем валидность поля ввода и вызываем функции обображения подсказок
-function checkInputValidity(formElement, inputElement) {
+// Проверяем валидность поля ввода и вызываем функции отображения подсказок
+function checkInputValidity(formElement, inputElement, settings) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, settings);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, settings);
   }
 };
 
 // Меняем активность кнопки сабмита
-function toggleButtonState(inputList, buttonElement) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__save-button_inactive');
+function toggleButtonState(inputList, buttonElement, settings) {
+  if (hasInvalidInput(inputList, settings)) {
+    buttonElement.classList.add(settings.inactiveButtonClass);
     buttonElement.disabled = true;
   }
   else {
-    buttonElement.classList.remove('popup__save-button_inactive');
+    buttonElement.classList.remove(settings.inactiveButtonClass);
     buttonElement.disabled = false;
   }
 };
@@ -45,39 +45,43 @@ function hasInvalidInput(inputList) {
 };
 
 // Перебераем поля ввода формы и вешаем слушатель валидации и блокировки сабмита
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-  const buttonElement = formElement.querySelector('.form__button-submit');
+function setEventListeners(formElement, settings) {
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, settings);
 
   inputList.forEach(function(inputElement) {
+    hideInputError(formElement, inputElement, settings); // скрываем ошибки до начала ввода в поля
+
     inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkInputValidity(formElement, inputElement, settings);
+      toggleButtonState(inputList, buttonElement, settings);
     });
   });
 };
 
 // Проверка всех форм страницы на валидность
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.form'));
+function enableValidation(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach(function(formElement) {
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
 
-    setEventListeners(formElement);
+    setEventListeners(formElement, settings);
 
   });
 };
 
+const settingsPage = {
+  formSelector: '.form', // класс форм на странице
+  inputSelector: '.form__input', // класс полей ввода внутри форм
+  submitButtonSelector: '.form__button-submit', // класс кнопок сабмита внутри форм
+  inactiveButtonClass: 'popup__save-button_inactive', // класс со стилями неактивной кнопки сабмита
+  inputErrorClass: 'form__input_error', // класс со стилями поля ввода с ошибкой
+  errorClass: 'form__tip_active' // класс активной подсказки об ошибке
+};
+
 // Вызываем функцию влаидации с передачей настроек
-.enableValidation({
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__button-submit',
-  inactiveButtonClass: 'popup__save-button_inactive',
-  inputErrorClass: 'form__input_error',
-  errorClass: 'form__tip_active'
-});
+enableValidation(settingsPage);

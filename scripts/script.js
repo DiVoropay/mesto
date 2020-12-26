@@ -71,6 +71,8 @@ initialCards.forEach(function(item){
 
 // Открываем попапы
 function renderPopup(activeForm) {
+  enableValidation(settingsPage);
+
   activeForm.closest('.popup').classList.add('popup_opened');
 
   activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
@@ -96,7 +98,6 @@ function checkClickOverlay(evt) {
 // Проверяем нажатие Escape
 function checkPressEsc(key) {
   if (key.code === 'Escape') {
-    console.log(key.target);
     const openedPopup = document.querySelector('.popup_opened');
     hidePopup(openedPopup);
   };
@@ -117,7 +118,7 @@ function saveEdit(evt) {
   nameProfile.textContent = editProfileName.value;
   descrProfile.textContent = editProfileDescr.value;
 
-  hidePopup(editProfileForm);
+  hidePopup(evt.target);
 };
 
 // Сохраняем новый элемент
@@ -130,7 +131,7 @@ function saveCard(evt) {
 
   evt.target.reset(); // очищаем поля формы
 
-  hidePopup(addCardForm);
+  hidePopup(evt.target);
 };
 
 // Заполняем окно просмотра данными
