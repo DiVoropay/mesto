@@ -71,8 +71,6 @@ initialCards.forEach(function(item){
 
 // Открываем попапы
 function renderPopup(activeForm) {
-  enableValidation(settingsPage);
-
   activeForm.closest('.popup').classList.add('popup_opened');
 
   activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
@@ -146,7 +144,9 @@ function viewImage(imageTitle, imageLink) {
 
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click',function () {
-  fillPopup(editProfileForm)
+  fillPopup(editProfileForm);
+
+  validationOpeningForm(editProfileForm, settingsPage);
 });
 
 editProfileClose.addEventListener('click',  function () {
@@ -157,7 +157,9 @@ editProfileForm.addEventListener('submit', saveEdit);
 
 
 addCardBtn.addEventListener('click', function () {
-  renderPopup(addCardForm)
+  renderPopup(addCardForm);
+
+  validationOpeningForm(addCardForm, settingsPage);
 });
 
 addCardClose.addEventListener('click', function () {

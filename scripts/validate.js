@@ -27,7 +27,7 @@ function checkInputValidity(formElement, inputElement, settings) {
 
 // Меняем активность кнопки сабмита
 function toggleButtonState(inputList, buttonElement, settings) {
-  if (hasInvalidInput(inputList, settings)) {
+  if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(settings.inactiveButtonClass);
     buttonElement.disabled = true;
   }
@@ -44,10 +44,20 @@ function hasInvalidInput(inputList) {
   });
 };
 
+// Получаем инпуты формы
+function getInputsForm(formElement, settings) {
+  return Array.from(formElement.querySelectorAll(settings.inputSelector));
+}
+
+// Получаем кнопку формы
+function getButtonForm(formElement, settings) {
+  return formElement.querySelector(settings.submitButtonSelector);
+}
+
 // Перебераем поля ввода формы и вешаем слушатель валидации и блокировки сабмита
 function setEventListeners(formElement, settings) {
-  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
+  const inputList = getInputsForm(formElement, settings);
+  const buttonElement = getButtonForm(formElement, settings);
 
   toggleButtonState(inputList, buttonElement, settings);
 
@@ -58,6 +68,17 @@ function setEventListeners(formElement, settings) {
       checkInputValidity(formElement, inputElement, settings);
       toggleButtonState(inputList, buttonElement, settings);
     });
+  });
+};
+
+// Проверка валидности формы при открытии
+function validationOpeningForm(formElement, settings) {
+  const inputList = getInputsForm(formElement, settings);
+  const buttonElement = getButtonForm(formElement, settings);
+
+  inputList.forEach(function(inputElement) {
+    hideInputError(formElement, inputElement, settings);
+    toggleButtonState(inputList, buttonElement, settings);
   });
 };
 
