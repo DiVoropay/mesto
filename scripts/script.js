@@ -30,6 +30,16 @@ function getMarkupElement() {
   return elementTemplate.cloneNode(true);
 };
 
+// Переключаем лайк на карточке
+function toggleLikeElement(evt) {
+  evt.target.classList.toggle('element__like_active');
+};
+
+// Удаляем карточку
+function removeElement(evt) {
+  evt.target.closest('.element').remove();
+};
+
 // Заполняем новую карточку по наименованию и ссылке на изображение
 function makeNewElement(nameValue, linkValue) {
   const element = getMarkupElement(); // получаем разметку элемента
@@ -44,15 +54,13 @@ function makeNewElement(nameValue, linkValue) {
   elementImage.src = linkValue; // записываем путь к изображению
 
   // Цепляем слушателей событий на кнопки элемента
-  elementLikeBtn.addEventListener('click', function(evt){
-    evt.target.classList.toggle('element__like_active');
-  });
+  elementLikeBtn.addEventListener('click', toggleLikeElement);
+
   elementImage.addEventListener('click', function(){
     viewImage(nameValue, linkValue);
   });
-  elementTrashBtn.addEventListener('click', function(evt){
-    evt.target.closest('.element').remove();
-  });
+
+  elementTrashBtn.addEventListener('click', removeElement);
 
   return element;
 };
