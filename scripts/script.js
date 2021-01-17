@@ -23,47 +23,47 @@ const viewerClose = viewerPopup.querySelector('.popup__close');
 const viewerTitle = viewerPopup.querySelector('.viewer__title');
 const viewerImage = viewerPopup.querySelector('.viewer__image');
 
-// Получаем разметку карточки по наименованию идентификатору тега
-function getMarkupElement() {
-  const elementTemplate = document.querySelector('#element-template').content;
+// // Получаем разметку карточки по наименованию идентификатору тега
+// function getMarkupElement() {
+//   const elementTemplate = document.querySelector('#element-template').content;
 
-  return elementTemplate.cloneNode(true);
-};
+//   return elementTemplate.cloneNode(true);
+// };
 
-// Переключаем лайк на карточке
-function toggleLikeElement(evt) {
-  evt.target.classList.toggle('element__like_active');
-};
+// // Переключаем лайк на карточке
+// function toggleLikeElement(evt) {
+//   evt.target.classList.toggle('element__like_active');
+// };
 
-// Удаляем карточку
-function removeElement(evt) {
-  evt.target.closest('.element').remove();
-};
+// // Удаляем карточку
+// function removeElement(evt) {
+//   evt.target.closest('.element').remove();
+// };
 
-// Заполняем новую карточку по наименованию и ссылке на изображение
-function makeNewElement(nameValue, linkValue) {
-  const element = getMarkupElement(); // получаем разметку элемента
-  const elementTitle = element.querySelector('.element__title'); // находим в полученной разметке заголовок
-  const elementImage = element.querySelector('.element__image'); // находим в полученной разметке изображение
-  const elementTrashBtn = element.querySelector('.element__trash'); // находим в полученной разметке изображение
-  const elementLikeBtn = element.querySelector('.element__like'); // находим в полученной разметке изображение
+// // Заполняем новую карточку по наименованию и ссылке на изображение
+// function makeNewElement(nameValue, linkValue) {
+//   const element = getMarkupElement(); // получаем разметку элемента
+//   const elementTitle = element.querySelector('.element__title'); // находим в полученной разметке заголовок
+//   const elementImage = element.querySelector('.element__image'); // находим в полученной разметке изображение
+//   const elementTrashBtn = element.querySelector('.element__trash'); // находим в полученной разметке изображение
+//   const elementLikeBtn = element.querySelector('.element__like'); // находим в полученной разметке изображение
 
-  elementTitle.textContent = nameValue; // записываем заголовок нового элемента
-  elementTitle.title = nameValue; // накидываем всплывающий тайтл для случаев длинных заголовков
-  elementImage.alt = nameValue; // накидываем альт изображению
-  elementImage.src = linkValue; // записываем путь к изображению
+//   elementTitle.textContent = nameValue; // записываем заголовок нового элемента
+//   elementTitle.title = nameValue; // накидываем всплывающий тайтл для случаев длинных заголовков
+//   elementImage.alt = nameValue; // накидываем альт изображению
+//   elementImage.src = linkValue; // записываем путь к изображению
 
-  // Цепляем слушателей событий на кнопки элемента
-  elementLikeBtn.addEventListener('click', toggleLikeElement);
+//   // Цепляем слушателей событий на кнопки элемента
+//   elementLikeBtn.addEventListener('click', toggleLikeElement);
 
-  elementImage.addEventListener('click', function(){
-    viewImage(nameValue, linkValue);
-  });
+//   elementImage.addEventListener('click', function(){
+//     viewImage(nameValue, linkValue);
+//   });
 
-  elementTrashBtn.addEventListener('click', removeElement);
+//   elementTrashBtn.addEventListener('click', removeElement);
 
-  return element;
-};
+//   return element;
+// };
 
 // Универсальная функция добавления переданного элемента в начало переданной секции
 function addElementToSection(sectionPage, newElement) {
@@ -72,7 +72,9 @@ function addElementToSection(sectionPage, newElement) {
 
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function(item){
-  const makedElement = makeNewElement(item.name, item.link);
+  //const makedElement = makeNewElement(item.name, item.link);
+  const card = new Card(item.name, item.link, '.element-template');
+  const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement);
 });
@@ -131,7 +133,9 @@ function saveEdit(evt) {
 function saveCard(evt) {
   evt.preventDefault();
 
-  const makedElement = makeNewElement(addCardName.value, addCardLink.value); // формируем элемент из инпутов формы добавления элемента
+  //const makedElement = makeNewElement(addCardName.value, addCardLink.value); // формируем элемент из инпутов формы добавления элемента
+  const card = new Card(addCardName.value, addCardLink.value, '.element-template');
+  const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
 
@@ -140,15 +144,15 @@ function saveCard(evt) {
   hidePopup(evt.target);
 };
 
-// Заполняем окно просмотра данными
-function viewImage(imageTitle, imageLink) {
+// // Заполняем окно просмотра данными
+// function viewImage(imageTitle, imageLink) {
 
-  viewerTitle.textContent = imageTitle;
-  viewerImage.src = imageLink;
-  viewerImage.alt = imageTitle;
+//   viewerTitle.textContent = imageTitle;
+//   viewerImage.src = imageLink;
+//   viewerImage.alt = imageTitle;
 
-  renderPopup(viewerPopup);
-};
+//   renderPopup(viewerPopup);
+// };
 
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click',function () {
