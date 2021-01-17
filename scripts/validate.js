@@ -1,96 +1,101 @@
 // Скрипт "живой" валидации форм страницы
 
-// Отображем поле с текстом ошибки поля ввода
-function showInputError(formElement, inputElement, errorMessage, settings) {
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.add(settings.inputErrorClass);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(settings.errorClass);
-};
+// // Отображем поле с текстом ошибки поля ввода
+// function showInputError(formElement, inputElement, errorMessage, settings) {
+//   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+//   inputElement.classList.add(settings.inputErrorClass);
+//   errorElement.textContent = errorMessage;
+//   errorElement.classList.add(settings.errorClass);
+// };
 
-// Скрываем поле с текстом ошибки поля ввода
-function hideInputError(formElement, inputElement, settings) {
-  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.remove(settings.inputErrorClass);
-  errorElement.classList.remove(settings.errorClass);
-  errorElement.textContent = '';
-};
+// // Скрываем поле с текстом ошибки поля ввода
+// function hideInputError(formElement, inputElement, settings) {
+//   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+//   inputElement.classList.remove(settings.inputErrorClass);
+//   errorElement.classList.remove(settings.errorClass);
+//   errorElement.textContent = '';
+// };
 
-// Проверяем валидность поля ввода и вызываем функции отображения подсказок
-function checkInputValidity(formElement, inputElement, settings) {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, settings);
-  } else {
-    hideInputError(formElement, inputElement, settings);
-  }
-};
+// // Проверяем валидность поля ввода и вызываем функции отображения подсказок
+// function checkInputValidity(formElement, inputElement, settings) {
+//   if (!inputElement.validity.valid) {
+//     showInputError(formElement, inputElement, inputElement.validationMessage, settings);
+//   } else {
+//     hideInputError(formElement, inputElement, settings);
+//   }
+// };
 
-// Меняем активность кнопки сабмита
-function toggleButtonState(inputList, buttonElement, settings) {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(settings.inactiveButtonClass);
-    buttonElement.disabled = true;
-  }
-  else {
-    buttonElement.classList.remove(settings.inactiveButtonClass);
-    buttonElement.disabled = false;
-  }
-};
+// // Меняем активность кнопки сабмита
+// function toggleButtonState(inputList, buttonElement, settings) {
+//   if (hasInvalidInput(inputList)) {
+//     buttonElement.classList.add(settings.inactiveButtonClass);
+//     buttonElement.disabled = true;
+//   }
+//   else {
+//     buttonElement.classList.remove(settings.inactiveButtonClass);
+//     buttonElement.disabled = false;
+//   }
+// };
 
-// Возвращаем валидность формы на основе валидности её полей
-function hasInvalidInput(inputList) {
-  return inputList.some(function(input) {
-    return !input.validity.valid
-  });
-};
+// // Возвращаем валидность формы на основе валидности её полей
+// function hasInvalidInput(inputList) {
+//   return inputList.some(function(input) {
+//     return !input.validity.valid
+//   });
+// };
 
-// Получаем инпуты формы
-function getInputsForm(formElement, settings) {
-  return Array.from(formElement.querySelectorAll(settings.inputSelector));
-}
+// // Получаем инпуты формы
+// function getInputsForm(formElement, settings) {
+//   return Array.from(formElement.querySelectorAll(settings.inputSelector));
+// }
 
-// Получаем кнопку формы
-function getButtonForm(formElement, settings) {
-  return formElement.querySelector(settings.submitButtonSelector);
-}
+// // Получаем кнопку формы
+// function getButtonForm(formElement, settings) {
+//   return formElement.querySelector(settings.submitButtonSelector);
+// }
 
-// Перебераем поля ввода формы и вешаем слушатель валидации и блокировки сабмита
-function setEventListeners(formElement, settings) {
-  const inputList = getInputsForm(formElement, settings);
-  const buttonElement = getButtonForm(formElement, settings);
+// // Перебераем поля ввода формы и вешаем слушатель валидации и блокировки сабмита
+// function setEventListeners(formElement, settings) {
+//   const inputList = getInputsForm(formElement, settings);
+//   const buttonElement = getButtonForm(formElement, settings);
 
-  toggleButtonState(inputList, buttonElement, settings);
+//   toggleButtonState(inputList, buttonElement, settings);
 
-  inputList.forEach(function(inputElement) {
-    hideInputError(formElement, inputElement, settings); // скрываем ошибки до начала ввода в поля
+//   inputList.forEach(function(inputElement) {
+//     hideInputError(formElement, inputElement, settings); // скрываем ошибки до начала ввода в поля
 
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement, settings);
-      toggleButtonState(inputList, buttonElement, settings);
-    });
-  });
-};
+//     inputElement.addEventListener('input', function () {
+//       checkInputValidity(formElement, inputElement, settings);
+//       toggleButtonState(inputList, buttonElement, settings);
+//     });
+//   });
+// };
 
-// Проверка валидности формы при открытии
-function validationOpeningForm(formElement, settings) {
-  const inputList = getInputsForm(formElement, settings);
-  const buttonElement = getButtonForm(formElement, settings);
+// // Проверка валидности формы при открытии
+// function validationOpeningForm(formElement, settings) {
+//   const inputList = getInputsForm(formElement, settings);
+//   const buttonElement = getButtonForm(formElement, settings);
 
-  inputList.forEach(function(inputElement) {
-    hideInputError(formElement, inputElement, settings);
-    toggleButtonState(inputList, buttonElement, settings);
-  });
-};
+//   inputList.forEach(function(inputElement) {
+//     hideInputError(formElement, inputElement, settings);
+//     toggleButtonState(inputList, buttonElement, settings);
+//   });
+// };
 
 // Проверка всех форм страницы на валидность
-function enableValidation(settings) {
+function enableValidationAll(settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach(function(formElement) {
-    formElement.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
+    const form = new FormValidator (settings, formElement);
+    form.enableValidation();
 
-    setEventListeners(formElement, settings);
+
+
+    // formElement.addEventListener('submit', function (evt) {
+    //   evt.preventDefault();
+    // });
+
+    // setEventListeners(formElement, settings);
 
   });
 };
@@ -106,4 +111,4 @@ const settingsPage = {
 };
 
 // Вызываем функцию влаидации с передачей настроек
-enableValidation(settingsPage);
+enableValidationAll(settingsPage);

@@ -73,7 +73,7 @@ function addElementToSection(sectionPage, newElement) {
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function(item){
   //const makedElement = makeNewElement(item.name, item.link);
-  const card = new Card(item.name, item.link, '.element-template');
+  const card = new Card(item.name, item.link, '#element-template');
   const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement);
@@ -134,7 +134,7 @@ function saveCard(evt) {
   evt.preventDefault();
 
   //const makedElement = makeNewElement(addCardName.value, addCardLink.value); // формируем элемент из инпутов формы добавления элемента
-  const card = new Card(addCardName.value, addCardLink.value, '.element-template');
+  const card = new Card(addCardName.value, addCardLink.value, '#element-template');
   const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
@@ -158,7 +158,7 @@ function saveCard(evt) {
 editProfileBtn.addEventListener('click',function () {
   fillPopup(editProfileForm);
 
-  validationOpeningForm(editProfileForm, settingsPage);
+  //validationOpeningForm(editProfileForm, settingsPage);
 });
 
 editProfileClose.addEventListener('click',  function () {
@@ -171,7 +171,7 @@ editProfileForm.addEventListener('submit', saveEdit);
 addCardBtn.addEventListener('click', function () {
   renderPopup(addCardForm);
 
-  validationOpeningForm(addCardForm, settingsPage);
+  //validationOpeningForm(addCardForm, settingsPage);
 });
 
 addCardClose.addEventListener('click', function () {
