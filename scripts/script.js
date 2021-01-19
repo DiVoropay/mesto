@@ -158,7 +158,8 @@ function saveCard(evt) {
 editProfileBtn.addEventListener('click',function () {
   fillPopup(editProfileForm);
 
-  //validationOpeningForm(editProfileForm, settingsPage);
+
+  new FormValidator(settingsPage, editProfileForm).validationOpeningForm();
 });
 
 editProfileClose.addEventListener('click',  function () {
@@ -171,7 +172,7 @@ editProfileForm.addEventListener('submit', saveEdit);
 addCardBtn.addEventListener('click', function () {
   renderPopup(addCardForm);
 
-  //validationOpeningForm(addCardForm, settingsPage);
+  new FormValidator(settingsPage, addCardForm).validationOpeningForm();
 });
 
 addCardClose.addEventListener('click', function () {
