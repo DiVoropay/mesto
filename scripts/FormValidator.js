@@ -79,6 +79,7 @@ class FormValidator {
     });
   }
 
+  // Внешний метод всех полей формы
   enableValidation() {
     this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -87,16 +88,13 @@ class FormValidator {
     this._setEventListeners();
   }
 
-  // Проверка валидности формы при открытии
+  // Внешний метод проверки валидности формы при открытии
   validationOpeningForm() {
     this._getInputsForm().forEach((inputElement) => {
       this._hideInputError(inputElement);
       this._toggleButtonState();
     });
   };
-
-
-
-
-
 }
+
+export {FormValidator};

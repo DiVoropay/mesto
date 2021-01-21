@@ -1,4 +1,6 @@
-// в файле initialCards.js задаем первоначальный массив initialCards с элементами карточек
+import {initialCards} from './initialCards.js';
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 
 // Передаем классы в переменные
 const elements = document.querySelector('.elements');
@@ -23,47 +25,28 @@ const viewerClose = viewerPopup.querySelector('.popup__close');
 const viewerTitle = viewerPopup.querySelector('.viewer__title');
 const viewerImage = viewerPopup.querySelector('.viewer__image');
 
-// // Получаем разметку карточки по наименованию идентификатору тега
-// function getMarkupElement() {
-//   const elementTemplate = document.querySelector('#element-template').content;
+// Описываем настройки необходимые для валидации форм
+const settingsPage = {
+  formSelector: '.form', // класс форм на странице
+  inputSelector: '.form__input', // класс полей ввода внутри форм
+  submitButtonSelector: '.form__button-submit', // класс кнопок сабмита внутри форм
+  inactiveButtonClass: 'popup__save-button_inactive', // класс со стилями неактивной кнопки сабмита
+  inputErrorClass: 'form__input_error', // класс со стилями поля ввода с ошибкой
+  errorClass: 'form__tip_active' // класс активной подсказки об ошибке
+};
 
-//   return elementTemplate.cloneNode(true);
-// };
+// Проверка всех форм страницы на валидность
+function enableValidationAll(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
-// // Переключаем лайк на карточке
-// function toggleLikeElement(evt) {
-//   evt.target.classList.toggle('element__like_active');
-// };
+  formList.forEach(function(formElement) {
+    const form = new FormValidator (settings, formElement);
+    form.enableValidation();
+  });
+};
 
-// // Удаляем карточку
-// function removeElement(evt) {
-//   evt.target.closest('.element').remove();
-// };
-
-// // Заполняем новую карточку по наименованию и ссылке на изображение
-// function makeNewElement(nameValue, linkValue) {
-//   const element = getMarkupElement(); // получаем разметку элемента
-//   const elementTitle = element.querySelector('.element__title'); // находим в полученной разметке заголовок
-//   const elementImage = element.querySelector('.element__image'); // находим в полученной разметке изображение
-//   const elementTrashBtn = element.querySelector('.element__trash'); // находим в полученной разметке изображение
-//   const elementLikeBtn = element.querySelector('.element__like'); // находим в полученной разметке изображение
-
-//   elementTitle.textContent = nameValue; // записываем заголовок нового элемента
-//   elementTitle.title = nameValue; // накидываем всплывающий тайтл для случаев длинных заголовков
-//   elementImage.alt = nameValue; // накидываем альт изображению
-//   elementImage.src = linkValue; // записываем путь к изображению
-
-//   // Цепляем слушателей событий на кнопки элемента
-//   elementLikeBtn.addEventListener('click', toggleLikeElement);
-
-//   elementImage.addEventListener('click', function(){
-//     viewImage(nameValue, linkValue);
-//   });
-
-//   elementTrashBtn.addEventListener('click', removeElement);
-
-//   return element;
-// };
+// Вызываем функцию валидации с передачей настроек
+enableValidationAll(settingsPage);
 
 // Универсальная функция добавления переданного элемента в начало переданной секции
 function addElementToSection(sectionPage, newElement) {
@@ -72,7 +55,6 @@ function addElementToSection(sectionPage, newElement) {
 
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function(item){
-  //const makedElement = makeNewElement(item.name, item.link);
   const card = new Card(item.name, item.link, '#element-template');
   const makedElement = card.makeNewElement();
 
@@ -133,7 +115,6 @@ function saveEdit(evt) {
 function saveCard(evt) {
   evt.preventDefault();
 
-  //const makedElement = makeNewElement(addCardName.value, addCardLink.value); // формируем элемент из инпутов формы добавления элемента
   const card = new Card(addCardName.value, addCardLink.value, '#element-template');
   const makedElement = card.makeNewElement();
 
@@ -143,16 +124,6 @@ function saveCard(evt) {
 
   hidePopup(evt.target);
 };
-
-// // Заполняем окно просмотра данными
-// function viewImage(imageTitle, imageLink) {
-
-//   viewerTitle.textContent = imageTitle;
-//   viewerImage.src = imageLink;
-//   viewerImage.alt = imageTitle;
-
-//   renderPopup(viewerPopup);
-// };
 
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click',function () {

@@ -29,6 +29,7 @@ _viewImage() {
   viewerImage.src = this._linkImage;
   viewerImage.alt = `Фотография ${this._title}`;
 
+  // Обращаемся к внешней функции отрисоки попапа с передачей внешней перемменной(формы)
   renderPopup(viewerPopup);
 };
 
@@ -51,7 +52,7 @@ _viewImage() {
     });
   }
 
-  // Заполняем новую карточку по наименованию и ссылке на изображение
+  // Внешний метод заполнения новой карточки по наименованию и ссылке на изображение
   makeNewElement() {
     this._element = this._getMarkupElement(); // получаем разметку элемента
     this._setEventListeners();
@@ -67,3 +68,5 @@ _viewImage() {
     return this._element;
   };
 }
+
+export {Card};

@@ -25,3 +25,5 @@ const initialCards = [
       link: './images/element/taganrog-balka-smerti.jpg'
   }
 ];
+
+export {initialCards};
