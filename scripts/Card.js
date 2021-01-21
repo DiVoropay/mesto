@@ -24,7 +24,6 @@ class Card {
 
   // Заполняем окно просмотра данными
 _viewImage() {
-
   viewerTitle.textContent = this._title;
   viewerImage.src = this._linkImage;
   viewerImage.alt = `Фотография ${this._title}`;
