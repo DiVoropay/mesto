@@ -23,14 +23,14 @@ class Card {
   };
 
   // Заполняем окно просмотра данными
-_viewImage() {
-  viewerTitle.textContent = this._title;
-  viewerImage.src = this._linkImage;
-  viewerImage.alt = `Фотография ${this._title}`;
+  _viewImage() {
+    viewerTitle.textContent = this._title;
+    viewerImage.src = this._linkImage;
+    viewerImage.alt = `Фотография ${this._title}`;
 
-  // Обращаемся к внешней функции отрисоки попапа с передачей внешней перемменной(формы)
-  renderPopup(viewerPopup);
-};
+    // Обращаемся к внешней функции отрисоки попапа с передачей внешней перемменной(формы)
+    renderPopup(viewerPopup);
+  };
 
   // Цепляем слушателей событий на кнопки элемента
   _setEventListeners() {

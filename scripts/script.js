@@ -7,7 +7,7 @@ const elements = document.querySelector('.elements');
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileForm = document.forms['edit-profile'];
-const editProfileClose = editProfileForm.querySelector('.popup__close');
+//const editProfileClose = editProfileForm.querySelector('.popup__close');
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
 const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
@@ -16,12 +16,12 @@ const descrProfile = document.querySelector('.profile__description');
 
 const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];
-const addCardClose = addCardForm.querySelector('.popup__close');
+//const addCardClose = addCardForm.querySelector('.popup__close');
 const addCardName = addCardForm.querySelector('.popup__edit-name');
 const addCardLink = addCardForm.querySelector('.popup__edit-description');
 
 const viewerPopup = document.querySelector('.viewer');
-const viewerClose = viewerPopup.querySelector('.popup__close');
+//const viewerClose = viewerPopup.querySelector('.popup__close');
 const viewerTitle = viewerPopup.querySelector('.viewer__title');
 const viewerImage = viewerPopup.querySelector('.viewer__image');
 
@@ -65,6 +65,8 @@ initialCards.forEach(function(item){
 function renderPopup(activeForm) {
   activeForm.closest('.popup').classList.add('popup_opened');
 
+  activeForm.querySelector('.popup__close').addEventListener('click',  clickToClose);
+
   activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
   window.addEventListener('keydown', checkPressEsc);
 };
@@ -73,8 +75,16 @@ function renderPopup(activeForm) {
 function hidePopup(activeForm) {
   activeForm.closest('.popup').classList.remove('popup_opened');
 
+  activeForm.querySelector('.popup__close').removeEventListener('click',  clickToClose);
+
   activeForm.closest('.popup').removeEventListener('click', checkClickOverlay);
   window.removeEventListener('keydown', checkPressEsc);
+};
+
+// Выбираем и закрываем открытыю форму
+function clickToClose(evt) {
+  const isForm = evt.target.closest('.form');
+  hidePopup(isForm)
 };
 
 //Проверяем клик был за пределами формы или по форме.
@@ -133,9 +143,9 @@ editProfileBtn.addEventListener('click',function () {
   new FormValidator(settingsPage, editProfileForm).validationOpeningForm();
 });
 
-editProfileClose.addEventListener('click',  function () {
-  hidePopup(editProfileForm)
-});
+// editProfileClose.addEventListener('click',  function () {
+//   hidePopup(editProfileForm)
+// });
 
 editProfileForm.addEventListener('submit', saveEdit);
 
@@ -146,13 +156,13 @@ addCardBtn.addEventListener('click', function () {
   new FormValidator(settingsPage, addCardForm).validationOpeningForm();
 });
 
-addCardClose.addEventListener('click', function () {
-  hidePopup(addCardForm)
-});
+// addCardClose.addEventListener('click', function () {
+//   hidePopup(addCardForm)
+// });
 
 addCardForm.addEventListener('submit', saveCard);
 
 
-viewerClose.addEventListener('click', function () {
-  hidePopup(viewerPopup)
-});
+// viewerClose.addEventListener('click', function () {
+//   hidePopup(viewerPopup)
+// });
