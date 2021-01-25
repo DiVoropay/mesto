@@ -1,8 +1,13 @@
 class Card {
-  constructor(nameValue, linkValue, templateClass) {
+  constructor(nameValue, linkValue, templateClass, renderPopup) {
     this._title = nameValue;
     this._linkImage = linkValue;
     this._templateClass = templateClass;
+    this._renderPopup = renderPopup; // записываем внешнюю функцию отрисовки попапа
+
+    this._viewerPopup = document.querySelector('.viewer');
+    this._viewerTitle = this._viewerPopup.querySelector('.viewer__title');
+    this._viewerImage = this._viewerPopup.querySelector('.viewer__image');
   }
 
   // Получаем разметку карточки по наименованию классу тега
@@ -24,12 +29,11 @@ class Card {
 
   // Заполняем окно просмотра данными
   _viewImage() {
-    viewerTitle.textContent = this._title;
-    viewerImage.src = this._linkImage;
-    viewerImage.alt = `Фотография ${this._title}`;
+    this._viewerTitle.textContent = this._title;
+    this._viewerImage.src = this._linkImage;
+    this._viewerImage.alt = `Фотография ${this._title}`;
 
-    // Обращаемся к внешней функции отрисоки попапа с передачей внешней перемменной(формы)
-    renderPopup(viewerPopup);
+    this._renderPopup(this._viewerPopup);
   };
 
   // Цепляем слушателей событий на кнопки элемента

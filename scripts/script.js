@@ -7,7 +7,6 @@ const elements = document.querySelector('.elements');
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileForm = document.forms['edit-profile'];
-//const editProfileClose = editProfileForm.querySelector('.popup__close');
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
 const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
@@ -16,14 +15,8 @@ const descrProfile = document.querySelector('.profile__description');
 
 const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];
-//const addCardClose = addCardForm.querySelector('.popup__close');
 const addCardName = addCardForm.querySelector('.popup__edit-name');
 const addCardLink = addCardForm.querySelector('.popup__edit-description');
-
-const viewerPopup = document.querySelector('.viewer');
-//const viewerClose = viewerPopup.querySelector('.popup__close');
-const viewerTitle = viewerPopup.querySelector('.viewer__title');
-const viewerImage = viewerPopup.querySelector('.viewer__image');
 
 // Описываем настройки необходимые для валидации форм
 const settingsPage = {
@@ -48,18 +41,36 @@ function enableValidationAll(settings) {
 // Вызываем функцию валидации с передачей настроек
 enableValidationAll(settingsPage);
 
-// Универсальная функция добавления переданного элемента в начало переданной секции
-function addElementToSection(sectionPage, newElement) {
-  sectionPage.prepend(newElement);
+// Выбираем и закрываем открытыю форму
+function clickToClose(evt) {
+  const isForm = evt.target.closest('.form');
+  const isViewer = evt.target.closest('.viewer');
+  if (isForm) {
+    hidePopup(isForm);
+  }
+  else {
+    if (isViewer) {
+      hidePopup(isViewer);
+    }
+  }
 };
 
-// Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
-initialCards.forEach(function(item){
-  const card = new Card(item.name, item.link, '#element-template');
-  const makedElement = card.makeNewElement();
+//Проверяем клик был за пределами формы или по форме.
+function checkClickOverlay(evt) {
+  const isForm = evt.target.closest('.form');
+  const isViewer = evt.target.closest('.viewer__container');
+  if (!isForm & !isViewer) {
+    hidePopup(evt.target);
+  };
+};
 
-  addElementToSection(elements, makedElement);
-});
+// Проверяем нажатие Escape
+function checkPressEsc(key) {
+  if (key.code === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    hidePopup(openedPopup);
+  };
+};
 
 // Открываем попапы
 function renderPopup(activeForm) {
@@ -81,27 +92,19 @@ function hidePopup(activeForm) {
   window.removeEventListener('keydown', checkPressEsc);
 };
 
-// Выбираем и закрываем открытыю форму
-function clickToClose(evt) {
-  const isForm = evt.target.closest('.form');
-  hidePopup(isForm)
+
+// Универсальная функция добавления переданного элемента в начало переданной секции
+function addElementToSection(sectionPage, newElement) {
+  sectionPage.prepend(newElement);
 };
 
-//Проверяем клик был за пределами формы или по форме.
-function checkClickOverlay(evt) {
-  const isForm = evt.target.closest('.form');
-  if (!isForm) {
-    hidePopup(evt.target);
-  };
-};
+// Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
+initialCards.forEach(function(item){
+  const card = new Card(item.name, item.link, '#element-template', renderPopup);
+  const makedElement = card.makeNewElement();
 
-// Проверяем нажатие Escape
-function checkPressEsc(key) {
-  if (key.code === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    hidePopup(openedPopup);
-  };
-};
+  addElementToSection(elements, makedElement);
+});
 
 // Заполняем поля формы редактирования профиля текущими данными
 function fillPopup(activeForm) {
@@ -125,7 +128,7 @@ function saveEdit(evt) {
 function saveCard(evt) {
   evt.preventDefault();
 
-  const card = new Card(addCardName.value, addCardLink.value, '#element-template');
+  const card = new Card(addCardName.value, addCardLink.value, '#element-template', renderPopup);
   const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
@@ -138,31 +141,16 @@ function saveCard(evt) {
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click',function () {
   fillPopup(editProfileForm);
-
-
   new FormValidator(settingsPage, editProfileForm).validationOpeningForm();
 });
-
-// editProfileClose.addEventListener('click',  function () {
-//   hidePopup(editProfileForm)
-// });
 
 editProfileForm.addEventListener('submit', saveEdit);
 
 
 addCardBtn.addEventListener('click', function () {
   renderPopup(addCardForm);
-
   new FormValidator(settingsPage, addCardForm).validationOpeningForm();
 });
 
-// addCardClose.addEventListener('click', function () {
-//   hidePopup(addCardForm)
-// });
 
 addCardForm.addEventListener('submit', saveCard);
-
-
-// viewerClose.addEventListener('click', function () {
-//   hidePopup(viewerPopup)
-// });
