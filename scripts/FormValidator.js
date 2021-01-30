@@ -1,5 +1,5 @@
 class FormValidator {
-  constructor (settings, formElement) {
+  constructor(settings, formElement) {
     this._formSelector = settings.formSelector; // класс форм на странице
     this._inputSelector = settings.inputSelector; // класс полей ввода внутри форм
     this._submitButtonSelector = settings.submitButtonSelector; // класс кнопок сабмита внутри форм
@@ -69,7 +69,7 @@ class FormValidator {
 
     this._toggleButtonState();
 
-    this._getInputsForm().forEach( (inputElement) => {
+    this._getInputsForm().forEach((inputElement) => {
       this._hideInputError(inputElement); // скрываем ошибки до начала ввода в поля
 
       inputElement.addEventListener('input', () => {
@@ -97,4 +97,4 @@ class FormValidator {
   };
 }
 
-export {FormValidator};
+export { FormValidator };

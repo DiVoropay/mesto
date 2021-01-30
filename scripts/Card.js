@@ -17,7 +17,7 @@ class Card {
     return elementTemplate.cloneNode(true);
   };
 
-    // Переключаем лайк на карточке
+  // Переключаем лайк на карточке
   _toggleLikeElement(evt) {
     evt.target.classList.toggle('element__like_active');
   };
@@ -72,4 +72,4 @@ class Card {
   };
 }
 
-export {Card};
+export { Card };

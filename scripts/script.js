@@ -1,6 +1,6 @@
-import {initialCards} from './initialCards.js';
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import { initialCards } from './initialCards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
 
 // Передаем классы в переменные
 const elements = document.querySelector('.elements');
@@ -31,15 +31,20 @@ const settingsPage = {
 // Проверка всех форм страницы на валидность
 function enableValidationAll(settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
+  const formInstances = [];
 
-  formList.forEach(function(formElement) {
-    const form = new FormValidator (settings, formElement);
+  formList.forEach(function (formElement) {
+    const form = new FormValidator(settings, formElement);
     form.enableValidation();
+
+    formInstances[formElement.name] = form;
   });
+
+  return formInstances;
 };
 
-// Вызываем функцию валидации с передачей настроек
-enableValidationAll(settingsPage);
+// Получаем именнованный массив объектов валидированных форм
+const arrayFormValidator = enableValidationAll(settingsPage);
 
 // Выбираем и закрываем открытыю форму
 function clickToClose(evt) {
@@ -76,7 +81,7 @@ function checkPressEsc(key) {
 function renderPopup(activeForm) {
   activeForm.closest('.popup').classList.add('popup_opened');
 
-  activeForm.querySelector('.popup__close').addEventListener('click',  clickToClose);
+  activeForm.querySelector('.popup__close').addEventListener('click', clickToClose);
 
   activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
   window.addEventListener('keydown', checkPressEsc);
@@ -86,7 +91,7 @@ function renderPopup(activeForm) {
 function hidePopup(activeForm) {
   activeForm.closest('.popup').classList.remove('popup_opened');
 
-  activeForm.querySelector('.popup__close').removeEventListener('click',  clickToClose);
+  activeForm.querySelector('.popup__close').removeEventListener('click', clickToClose);
 
   activeForm.closest('.popup').removeEventListener('click', checkClickOverlay);
   window.removeEventListener('keydown', checkPressEsc);
@@ -99,7 +104,7 @@ function addElementToSection(sectionPage, newElement) {
 };
 
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
-initialCards.forEach(function(item){
+initialCards.forEach(function (item) {
   const card = new Card(item.name, item.link, '#element-template', renderPopup);
   const makedElement = card.makeNewElement();
 
@@ -139,18 +144,16 @@ function saveCard(evt) {
 };
 
 // Слушаем клики по кнопкам
-editProfileBtn.addEventListener('click',function () {
+editProfileBtn.addEventListener('click', function () {
   fillPopup(editProfileForm);
-  new FormValidator(settingsPage, editProfileForm).validationOpeningForm();
+  arrayFormValidator['edit-profile'].validationOpeningForm();
 });
 
 editProfileForm.addEventListener('submit', saveEdit);
 
-
 addCardBtn.addEventListener('click', function () {
   renderPopup(addCardForm);
-  new FormValidator(settingsPage, addCardForm).validationOpeningForm();
+  arrayFormValidator['add-card'].validationOpeningForm();
 });
-
 
 addCardForm.addEventListener('submit', saveCard);
