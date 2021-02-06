@@ -1,6 +1,7 @@
 import { initialCards } from './initialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { Popup } from './Popup.js';
 
 // Передаем классы в переменные
 const elements = document.querySelector('.elements');
@@ -17,6 +18,10 @@ const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];
 const addCardName = addCardForm.querySelector('.popup__edit-name');
 const addCardLink = addCardForm.querySelector('.popup__edit-description');
+
+const formEditPrifile = new Popup(editProfileForm);
+const formAddCard = new Popup(addCardForm);
+const viewerCard = new Popup(document.querySelector('.viewer'));
 
 // Описываем настройки необходимые для валидации форм
 const settingsPage = {
@@ -46,56 +51,56 @@ function enableValidationAll(settings) {
 // Получаем именнованный массив объектов валидированных форм
 const arrayFormValidator = enableValidationAll(settingsPage);
 
-// Выбираем и закрываем открытыю форму
-function clickToClose(evt) {
-  const isForm = evt.target.closest('.form');
-  const isViewer = evt.target.closest('.viewer');
-  if (isForm) {
-    hidePopup(isForm);
-  }
-  else {
-    if (isViewer) {
-      hidePopup(isViewer);
-    }
-  }
-};
+// // Выбираем и закрываем открытыю форму
+// function clickToClose(evt) {
+//   const isForm = evt.target.closest('.form');
+//   const isViewer = evt.target.closest('.viewer');
+//   if (isForm) {
+//     hidePopup(isForm);
+//   }
+//   else {
+//     if (isViewer) {
+//       hidePopup(isViewer);
+//     }
+//   }
+// };
 
-//Проверяем клик был за пределами формы или по форме.
-function checkClickOverlay(evt) {
-  const isForm = evt.target.closest('.form');
-  const isViewer = evt.target.closest('.viewer__container');
-  if (!isForm & !isViewer) {
-    hidePopup(evt.target);
-  };
-};
+// //Проверяем клик был за пределами формы или по форме.
+// function checkClickOverlay(evt) {
+//   const isForm = evt.target.closest('.form');
+//   const isViewer = evt.target.closest('.viewer__container');
+//   if (!isForm & !isViewer) {
+//     hidePopup(evt.target);
+//   };
+// };
 
-// Проверяем нажатие Escape
-function checkPressEsc(key) {
-  if (key.code === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    hidePopup(openedPopup);
-  };
-};
+// // Проверяем нажатие Escape
+// function checkPressEsc(key) {
+//   if (key.code === 'Escape') {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     hidePopup(openedPopup);
+//   };
+// };
 
-// Открываем попапы
-function renderPopup(activeForm) {
-  activeForm.closest('.popup').classList.add('popup_opened');
+// // Открываем попапы
+// function renderPopup(activeForm) {
+//   activeForm.closest('.popup').classList.add('popup_opened');
 
-  activeForm.querySelector('.popup__close').addEventListener('click', clickToClose);
+//   activeForm.querySelector('.popup__close').addEventListener('click', clickToClose);
 
-  activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
-  window.addEventListener('keydown', checkPressEsc);
-};
+//   activeForm.closest('.popup').addEventListener('click', checkClickOverlay);
+//   window.addEventListener('keydown', checkPressEsc);
+// };
 
-// Закрываем попапы
-function hidePopup(activeForm) {
-  activeForm.closest('.popup').classList.remove('popup_opened');
+// // Закрываем попапы
+// function hidePopup(activeForm) {
+//   activeForm.closest('.popup').classList.remove('popup_opened');
 
-  activeForm.querySelector('.popup__close').removeEventListener('click', clickToClose);
+//   activeForm.querySelector('.popup__close').removeEventListener('click', clickToClose);
 
-  activeForm.closest('.popup').removeEventListener('click', checkClickOverlay);
-  window.removeEventListener('keydown', checkPressEsc);
-};
+//   activeForm.closest('.popup').removeEventListener('click', checkClickOverlay);
+//   window.removeEventListener('keydown', checkPressEsc);
+// };
 
 
 // Универсальная функция добавления переданного элемента в начало переданной секции
@@ -105,7 +110,14 @@ function addElementToSection(sectionPage, newElement) {
 
 // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
 initialCards.forEach(function (item) {
-  const card = new Card(item.name, item.link, '#element-template', renderPopup);
+  const card = new Card({viewerCard : () => {
+    viewerCard.open();
+    viewerCard.setEventListeners();
+    }
+  },
+  item.name, item.link, '#element-template',
+
+);
   const makedElement = card.makeNewElement();
 
   addElementToSection(elements, makedElement);
@@ -116,7 +128,10 @@ function fillPopup(activeForm) {
   editProfileName.value = nameProfile.textContent;
   editProfileDescr.value = descrProfile.textContent;
 
-  renderPopup(activeForm);
+  //renderPopup(activeForm);
+
+  formEditPrifile.open();
+  formEditPrifile.setEventListeners();
 };
 
 // Сохраняем новые данные пользователя
@@ -126,8 +141,12 @@ function saveEdit(evt) {
   nameProfile.textContent = editProfileName.value;
   descrProfile.textContent = editProfileDescr.value;
 
-  hidePopup(evt.target);
+  //hidePopup(evt.target);
+  formEditPrifile.close();
+  formEditPrifile.removeEventListeners();
 };
+
+
 
 // Сохраняем новый элемент
 function saveCard(evt) {
@@ -140,7 +159,9 @@ function saveCard(evt) {
 
   evt.target.reset(); // очищаем поля формы
 
-  hidePopup(evt.target);
+  //hidePopup(evt.target);
+  formAddCard.close();
+  formAddCard.removeEventListeners();
 };
 
 // Слушаем клики по кнопкам
@@ -152,7 +173,9 @@ editProfileBtn.addEventListener('click', function () {
 editProfileForm.addEventListener('submit', saveEdit);
 
 addCardBtn.addEventListener('click', function () {
-  renderPopup(addCardForm);
+  //renderPopup(addCardForm);
+  formAddCard.open();
+  formAddCard.setEventListeners();
   arrayFormValidator['add-card'].validationOpeningForm();
 });
 

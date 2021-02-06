@@ -1,9 +1,9 @@
 class Card {
-  constructor(nameValue, linkValue, templateClass, renderPopup) {
+  constructor({viewerCard},nameValue, linkValue, templateClass) {
     this._title = nameValue;
     this._linkImage = linkValue;
     this._templateClass = templateClass;
-    this._renderPopup = renderPopup; // записываем внешнюю функцию отрисовки попапа
+    this._renderPopup = viewerCard; // записываем внешнюю функцию отрисовки попапа
 
     this._viewerPopup = document.querySelector('.viewer');
     this._viewerTitle = this._viewerPopup.querySelector('.viewer__title');
@@ -33,7 +33,7 @@ class Card {
     this._viewerImage.src = this._linkImage;
     this._viewerImage.alt = `Фотография ${this._title}`;
 
-    this._renderPopup(this._viewerPopup);
+    this._renderPopup();
   };
 
   // Цепляем слушателей событий на кнопки элемента
