@@ -1,10 +1,11 @@
 import { initialCards } from './initialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { Section } from './Section.js';
 import { Popup } from './Popup.js';
 
 // Передаем классы в переменные
-const elements = document.querySelector('.elements');
+//const elements = document.querySelector('.elements');
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileForm = document.forms['edit-profile'];
@@ -18,6 +19,28 @@ const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];
 const addCardName = addCardForm.querySelector('.popup__edit-name');
 const addCardLink = addCardForm.querySelector('.popup__edit-description');
+
+const arrElements = initialCards.map(function (item) {
+  const card = new Card({viewerCard : () => {
+    viewerCard.open();
+    viewerCard.setEventListeners();
+    }
+  },
+  item.name, item.link, '#element-template',
+
+);
+  return card.makeNewElement();
+});
+
+const sectionElements = new Section(
+  {
+    items: arrElements,
+    renderer: (sectionPage, newElement) => {
+      sectionPage.prepend(newElement);
+    }
+  },
+  '.elements'
+);
 
 const formEditPrifile = new Popup(editProfileForm);
 const formAddCard = new Popup(addCardForm);
@@ -103,25 +126,27 @@ const arrayFormValidator = enableValidationAll(settingsPage);
 // };
 
 
-// Универсальная функция добавления переданного элемента в начало переданной секции
-function addElementToSection(sectionPage, newElement) {
-  sectionPage.prepend(newElement);
-};
+// // Универсальная функция добавления переданного элемента в начало переданной секции
+// function addElementToSection(sectionPage, newElement) {
+//   sectionPage.prepend(newElement);
+// };
 
-// Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
-initialCards.forEach(function (item) {
-  const card = new Card({viewerCard : () => {
-    viewerCard.open();
-    viewerCard.setEventListeners();
-    }
-  },
-  item.name, item.link, '#element-template',
+// // Для каждого элемента певроначального массива карточек запускаем функции формирования и добавления кода
+// initialCards.forEach(function (item) {
+//   const card = new Card({viewerCard : () => {
+//     viewerCard.open();
+//     viewerCard.setEventListeners();
+//     }
+//   },
+//   item.name, item.link, '#element-template',
 
-);
-  const makedElement = card.makeNewElement();
+// );
+//   const makedElement = card.makeNewElement();
 
-  addElementToSection(elements, makedElement);
-});
+//   addElementToSection(elements, makedElement);
+// });
+
+sectionElements.addArrItems();
 
 // Заполняем поля формы редактирования профиля текущими данными
 function fillPopup(activeForm) {
@@ -152,10 +177,18 @@ function saveEdit(evt) {
 function saveCard(evt) {
   evt.preventDefault();
 
-  const card = new Card(addCardName.value, addCardLink.value, '#element-template', renderPopup);
+  //const card = new Card(addCardName.value, addCardLink.value, '#element-template', renderPopup);
+  const card = new Card({viewerCard : () => {
+      viewerCard.open();
+      viewerCard.setEventListeners();
+      }
+    },
+    addCardName.value, addCardLink.value, '#element-template',
+  );
   const makedElement = card.makeNewElement();
 
-  addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
+  //addElementToSection(elements, makedElement); // добавляем в секцию elements сфомированный элемент
+  sectionElements.addItem(makedElement);
 
   evt.target.reset(); // очищаем поля формы
 
