@@ -1,13 +1,9 @@
 class Card {
-  constructor({viewerCard},nameValue, linkValue, templateClass) {
+  constructor({ handleCardClick }, nameValue, linkValue, templateClass) {
     this._title = nameValue;
     this._linkImage = linkValue;
     this._templateClass = templateClass;
-    this._renderPopup = viewerCard; // записываем внешнюю функцию отрисовки попапа
-
-    this._viewerPopup = document.querySelector('.viewer');
-    this._viewerTitle = this._viewerPopup.querySelector('.viewer__title');
-    this._viewerImage = this._viewerPopup.querySelector('.viewer__image');
+    this._handleCardClick = handleCardClick; // записываем внешнюю функцию отрисовки попапа
   }
 
   // Получаем разметку карточки по наименованию классу тега
@@ -27,15 +23,6 @@ class Card {
     evt.target.closest('.element').remove();
   };
 
-  // Заполняем окно просмотра данными
-  _viewImage() {
-    this._viewerTitle.textContent = this._title;
-    this._viewerImage.src = this._linkImage;
-    this._viewerImage.alt = `Фотография ${this._title}`;
-
-    this._renderPopup();
-  };
-
   // Цепляем слушателей событий на кнопки элемента
   _setEventListeners() {
     const elementTrashBtn = this._element.querySelector('.element__trash'); // находим кнопку корзины/удаления
@@ -47,7 +34,7 @@ class Card {
     });
 
     elementImage.addEventListener('click', () => {
-      this._viewImage();
+      this._handleCardClick(this._title, this._linkImage);
     });
 
     elementTrashBtn.addEventListener('click', (evt) => {
