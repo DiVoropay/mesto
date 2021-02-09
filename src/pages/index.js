@@ -13,7 +13,7 @@ const editProfileForm = document.forms['edit-profile'];
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
 const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
-const userInfo = new UserInfo({userNameSelector: '.profile__name', userInfoSelector: '.profile__description'})
+const userInfo = new UserInfo({ userNameSelector: '.profile__name', userInfoSelector: '.profile__description' })
 
 const addCardBtn = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['add-card'];

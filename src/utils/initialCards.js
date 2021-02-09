@@ -8,29 +8,29 @@ import taganrogBalkaSmerti from '../images/element/taganrog-balka-smerti.jpg';
 // Вводим в первоначальный массив с элементами
 const initialCards = [
   {
-      name: 'Гостиница "Таганрог"',
-      link: taganrogHotel
+    name: 'Гостиница "Таганрог"',
+    link: taganrogHotel
   },
   {
-      name: 'Лицей имени А.П.Чехова',
-      link: taganrogLiceyChehova
+    name: 'Лицей имени А.П.Чехова',
+    link: taganrogLiceyChehova
   },
   {
-      name: 'Таганрогский универмаг',
-      link: taganrogTum
+    name: 'Таганрогский универмаг',
+    link: taganrogTum
   },
   {
-      name: 'Кинотеатр "Юность"',
-      link: taganrogCinemaUnost
+    name: 'Кинотеатр "Юность"',
+    link: taganrogCinemaUnost
   },
   {
-      name: 'Парк имени М.Горького',
-      link: taganrogParkGorkogo
+    name: 'Парк имени М.Горького',
+    link: taganrogParkGorkogo
   },
   {
-      name: 'Балка смерти',
-      link: taganrogBalkaSmerti
+    name: 'Балка смерти',
+    link: taganrogBalkaSmerti
   }
 ];
 
-export {initialCards};
+export { initialCards };
