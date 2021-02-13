@@ -8,6 +8,8 @@ class FormValidator {
     this._errorClass = settings.errorClass; // класс активной подсказки об ошибке
 
     this._formElement = formElement; // Валидируемая форма
+    this._arrInputs = this._formElement.querySelectorAll(this._inputSelector); // массив инпутов формы
+    this._submitButton = this._formElement.querySelector(this._submitButtonSelector); // сабмит формы
   }
 
   // Отображем поле с текстом ошибки поля ввода
@@ -56,12 +58,12 @@ class FormValidator {
 
   // Получаем инпуты формы
   _getInputsForm() {
-    return Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    return Array.from(this._arrInputs);
   }
 
   // Получаем кнопку формы
   _getButtonForm() {
-    return this._formElement.querySelector(this._submitButtonSelector);
+    return this._submitButton;
   }
 
   // Перебераем поля ввода формы и вешаем слушатель валидации и блокировки сабмита

@@ -13,24 +13,24 @@ const editProfileForm = document.forms['edit-profile'];
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
 const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
+const addCardBtn = document.querySelector('.profile__add-button');
+
 const userInfo = new UserInfo({ userNameSelector: '.profile__name', userInfoSelector: '.profile__description' })
 
-const addCardBtn = document.querySelector('.profile__add-button');
-const addCardForm = document.forms['add-card'];
-const addCardName = addCardForm.querySelector('.popup__edit-name');
-const addCardLink = addCardForm.querySelector('.popup__edit-description');
-
-const arrElements = initialCards.map(function (item) {
+// Функция формирования карточки
+function createCard(placeName, linkImage) {
   const card = new Card({
     handleCardClick: (imageName, imageSrc) => {
       viewerCard.open(imageName, imageSrc);
-      viewerCard.setEventListeners();
     }
   },
-    item.name, item.link, '#element-template',
-
+    placeName, linkImage, '#element-template',
   );
   return card.makeNewElement();
+}
+
+const arrElements = initialCards.map(function (item) {
+  return createCard(item.name, item.link);
 });
 
 const sectionElements = new Section(
@@ -45,42 +45,32 @@ const sectionElements = new Section(
 
 const formEditPrifile = new PopupWithForm(
   {
-    submitForm: (evt) => {
-      evt.preventDefault();
-
-      userInfo.setUserInfo(editProfileName.value, editProfileDescr.value);
+    submitForm: (formValues) => {
+      userInfo.setUserInfo(formValues['firstname'], formValues['about']);
 
       formEditPrifile.close();
-      formEditPrifile.removeEventListeners();
     }
   },
-  editProfileForm
+  '.form_edit-profile'
 );
+formEditPrifile.setEventListeners();
 
 const formAddCard = new PopupWithForm(
   {
-    submitForm: (evt) => {
-      evt.preventDefault();
-
-      const card = new Card({
-        viewerCard: (imageName, imageSrc) => {
-          viewerCard.open(imageName, imageSrc);
-          viewerCard.setEventListeners();
-        }
-      },
-        addCardName.value, addCardLink.value, '#element-template',
-      );
-      const makedElement = card.makeNewElement();
+    submitForm: (formValues) => {
+      const makedElement = createCard(formValues['place-name'], formValues['link-image']);
 
       sectionElements.addItem(makedElement);
 
       formAddCard.close();
-      formAddCard.removeEventListeners();
     }
   },
-  addCardForm
+  '.form_add-card'
 );
-const viewerCard = new PopupWithImage(document.querySelector('.viewer'));
+formAddCard.setEventListeners();
+
+const viewerCard = new PopupWithImage('.viewer');
+viewerCard.setEventListeners();
 
 // Описываем настройки необходимые для валидации форм
 const settingsPage = {
@@ -117,19 +107,16 @@ sectionElements.addArrItems();
 function fillPopup() {
   editProfileName.value = userInfo.getUserInfo().userName;
   editProfileDescr.value = userInfo.getUserInfo().userInfo;
-
-  formEditPrifile.open();
-  formEditPrifile.setEventListeners();
 };
 
 // Слушаем клики по кнопкам
 editProfileBtn.addEventListener('click', function () {
   fillPopup();
+  formEditPrifile.open();
   arrayFormValidator['edit-profile'].validationOpeningForm();
 });
 
 addCardBtn.addEventListener('click', function () {
   formAddCard.open();
-  formAddCard.setEventListeners();
   arrayFormValidator['add-card'].validationOpeningForm();
 });
