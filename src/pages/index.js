@@ -51,7 +51,7 @@ const formEditPrifile = new PopupWithForm(
       formEditPrifile.close();
     }
   },
-  '.form_edit-profile'
+  '.popup_edit-profile'
 );
 formEditPrifile.setEventListeners();
 
@@ -65,11 +65,11 @@ const formAddCard = new PopupWithForm(
       formAddCard.close();
     }
   },
-  '.form_add-card'
+  '.popup_add-card'
 );
 formAddCard.setEventListeners();
 
-const viewerCard = new PopupWithImage('.viewer');
+const viewerCard = new PopupWithImage('.popup_viewer');
 viewerCard.setEventListeners();
 
 // Описываем настройки необходимые для валидации форм
