@@ -1,9 +1,11 @@
 class Card {
-  constructor({ handleCardClick }, nameValue, linkValue, templateClass) {
-    this._title = nameValue;
-    this._linkImage = linkValue;
+  constructor({ handleCardClick, removeCardApi }, item, templateClass) {
+    this._title = item.name;
+    this._linkImage = item.link;
+    this._id = item._id;
     this._templateClass = templateClass;
     this._handleCardClick = handleCardClick; // записываем внешнюю функцию отрисовки попапа
+    this._removeCardApi = removeCardApi;
   }
 
   // Получаем разметку карточки по наименованию классу тега
@@ -20,7 +22,10 @@ class Card {
 
   // Удаляем карточку
   _removeElement(evt) {
+    //this._removeCardApi(this._id);
     evt.target.closest('.element').remove();
+
+
   };
 
   // Цепляем слушателей событий на кнопки элемента

@@ -4,8 +4,8 @@ export class UserInfo {
     this._userInfoElement = document.querySelector(userInfoSelector);
   }
 
-  getUserInfo() {
-    return { userName: this._userNameElement.textContent, userInfo: this._userInfoElement.textContent };
+  getUserInfo(data) {
+    return { userName: data.name , userInfo: data.about };
   }
 
   setUserInfo(editName, editInfo) {

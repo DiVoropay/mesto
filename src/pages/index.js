@@ -6,6 +6,7 @@ import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { Api } from '../components/Api.js';
 
 // Передаем классы в переменные
 const editProfileBtn = document.querySelector('.profile__edit-button');
@@ -15,38 +16,87 @@ const editProfileDescr = editProfileForm.querySelector('.popup__edit-description
 
 const addCardBtn = document.querySelector('.profile__add-button');
 
-const userInfo = new UserInfo({ userNameSelector: '.profile__name', userInfoSelector: '.profile__description' })
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-20',
+  headers: {
+    authorization: '41f72902-7107-4ed8-b788-31083cbaf2ac',
+    'Content-Type': 'application/json'
+  }
+});
+
+const userInfo = new UserInfo({
+  userNameSelector: '.profile__name',
+  userInfoSelector: '.profile__description',
+})
+
+
 
 // Функция формирования карточки
-function createCard(placeName, linkImage) {
+function createCard(item) {
   const card = new Card({
     handleCardClick: (imageName, imageSrc) => {
       viewerCard.open(imageName, imageSrc);
+    },
+    removeCardApi: (id) => {
+      return api.removeCard(id)
+        .then(() => {})
+        .catch((err) => { console.log(`Ошибка: ${err}`) });
     }
   },
-    placeName, linkImage, '#element-template',
+    item, '#element-template'
   );
   return card.makeNewElement();
 }
 
-const arrElements = initialCards.map(function (item) {
-  return createCard(item.name, item.link);
+api.getInitialCards()
+  .then((data) => {
+    const arrElements = data.map(function (item) {
+      return createCard(item);
+    });
+
+    const sectionElements = new Section(
+      {
+        items: arrElements,
+        renderer: (sectionPage, newElement) => {
+          sectionPage.prepend(newElement);
+        }
+      },
+      '.elements'
+    );
+
+    sectionElements.addArrItems();
+  })
+  .catch((err) => { console.log(`Ошибка: ${err}`) });
+//
+
+api.getPrifile()
+  .then((data) => {
+    userInfo.setUserInfo(data.name, data.about);
+  })
+  .catch((err) => { console.log(`Ошибка: ${err}`) });
+
+
+editProfileBtn.addEventListener('click', function () {
+  api.getPrifile()
+    .then((data) => {
+      editProfileName.value = userInfo.getUserInfo(data).userName;
+      editProfileDescr.value = userInfo.getUserInfo(data).userInfo;
+      formEditPrifile.open();
+      arrayFormValidator['edit-profile'].validationOpeningForm();
+    })
+
 });
 
-const sectionElements = new Section(
-  {
-    items: arrElements,
-    renderer: (sectionPage, newElement) => {
-      sectionPage.prepend(newElement);
-    }
-  },
-  '.elements'
-);
+
 
 const formEditPrifile = new PopupWithForm(
   {
     submitForm: (formValues) => {
-      userInfo.setUserInfo(formValues['firstname'], formValues['about']);
+      api.editPrifile({name: formValues['firstname'], about: formValues['about']})
+        .then((data) => {
+          userInfo.setUserInfo(data.name, data.about);
+        })
+        .catch((err) => { console.log(`Ошибка: ${err}`) });
 
       formEditPrifile.close();
     }
@@ -58,9 +108,13 @@ formEditPrifile.setEventListeners();
 const formAddCard = new PopupWithForm(
   {
     submitForm: (formValues) => {
-      const makedElement = createCard(formValues['place-name'], formValues['link-image']);
+      api.addCard({ name: formValues['place-name'], link: formValues['link-image'] })
+        .then((data) => {
+          const makedElement = createCard(data.name, data.link);
 
-      sectionElements.addItem(makedElement);
+          sectionElements.addItem(makedElement);
+        })
+        .catch((err) => { console.log(`Ошибка: ${err}`) });
 
       formAddCard.close();
     }
@@ -99,22 +153,6 @@ function enableValidationAll(settings) {
 
 // Получаем именнованный массив объектов валидированных форм
 const arrayFormValidator = enableValidationAll(settingsPage);
-
-//
-sectionElements.addArrItems();
-
-// Заполняем поля формы редактирования профиля текущими данными
-function fillPopup() {
-  editProfileName.value = userInfo.getUserInfo().userName;
-  editProfileDescr.value = userInfo.getUserInfo().userInfo;
-};
-
-// Слушаем клики по кнопкам
-editProfileBtn.addEventListener('click', function () {
-  fillPopup();
-  formEditPrifile.open();
-  arrayFormValidator['edit-profile'].validationOpeningForm();
-});
 
 addCardBtn.addEventListener('click', function () {
   formAddCard.open();
