@@ -1,0 +1,11 @@
+.profile__edit-avatar {
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: center;
+  border: none;
+}
+
+.profile__edit-avatar:hover {
+  background-image: url('./../../../images/profile/edit-avatar.svg');
+}

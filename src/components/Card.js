@@ -1,11 +1,12 @@
 class Card {
-  constructor({ handleCardClick, removeCardApi }, item, templateClass) {
+  constructor({ handleCardClick, handleRemoveClick, removeCardApi }, item, templateClass) {
     this._title = item.name;
     this._linkImage = item.link;
+    this._likeCount = item.likes.length;
     this._id = item._id;
     this._templateClass = templateClass;
     this._handleCardClick = handleCardClick; // записываем внешнюю функцию отрисовки попапа
-    this._removeCardApi = removeCardApi;
+    this._handleRemoveClick = handleRemoveClick;
   }
 
   // Получаем разметку карточки по наименованию классу тега
@@ -22,10 +23,7 @@ class Card {
 
   // Удаляем карточку
   _removeElement(evt) {
-    //this._removeCardApi(this._id);
     evt.target.closest('.element').remove();
-
-
   };
 
   // Цепляем слушателей событий на кнопки элемента
@@ -43,7 +41,8 @@ class Card {
     });
 
     elementTrashBtn.addEventListener('click', (evt) => {
-      this._removeElement(evt);
+      this._handleRemoveClick(this._id);
+      //this._removeElement(evt);
     });
   }
 
@@ -54,11 +53,13 @@ class Card {
 
     const elementTitle = this._element.querySelector('.element__title'); // находим в полученной разметке заголовок
     const elementImage = this._element.querySelector('.element__image'); // находим в полученной разметке изображение
+    const elementLikeCount = this._element.querySelector('.element__like-count');
 
     elementTitle.textContent = this._title; // записываем заголовок нового элемента
     elementTitle.title = this._title; // накидываем всплывающий тайтл для случаев длинных заголовков
     elementImage.alt = `Фотография ${this._title}`; // накидываем альт изображению
     elementImage.src = this._linkImage; // записываем путь к изображению
+    elementLikeCount.textContent = this._likeCount;
 
     return this._element;
   };

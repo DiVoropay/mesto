@@ -16,7 +16,11 @@
     <main class="content">
 
       <section class="profile content__profile">
-        <img class="profile__avatar" src=<%=require("./images/profile/avatar.jpg")%>  alt="Фотография профиля">
+        <button class="profile__edit-avatar" type="button">
+          <img class="profile__avatar page-hover" src=<%=require("./images/profile/avatar.jpg")%>  alt="Фотография профиля">
+        </button>
+
+
         <div class="profile__info">
           <div class="profile__flex-row">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -59,6 +63,22 @@
       </form>
     </div>
 
+    <div class="popup popup_edit-avatar">
+      <form class="form popup__container" name="edit-avatar" novalidate>
+        <button class="form__reset popup__close page-hover" type="reset"></button>
+        <h2 class="form__title popup__title">
+          Обновить аватар
+        </h2>
+        <label class="form__field">
+          <input class="form__input popup__edit-description" type="url" name="link-avatar" placeholder="Ссылка на аватар" required>
+          <span class="form__tip link-avatar-error"></span>
+        </label>
+        <button class="form__button-submit popup__save-button page-hover" type="submit">
+          Сохранить
+        </button>
+      </form>
+    </div>
+
     <div class="popup popup_add-card">
       <form class="form popup__container" name="add-card" novalidate>
         <button class="form__reset popup__close page-hover" type="reset"></button>
@@ -75,6 +95,22 @@
         </label>
         <button class="form__button-submit popup__save-button page-hover" type="submit">
           Создать
+        </button>
+      </form>
+    </div>
+
+    <div class="popup popup_remove-card">
+      <form class="form popup__container" name="remove-card" novalidate>
+        <button class="form__reset popup__close page-hover" type="reset"></button>
+        <h2 class="form__title popup__title">
+          Вы уверены?
+        </h2>
+        <label class="form__field">
+          <input class="form__input popup__edit-name" type="hidden" name="card-id" placeholder="ID" minlength="2" maxlength="30" required>
+          <span class="form__tip card-id-error"></span>
+        </label>
+        <button class="form__button-submit popup__save-button page-hover" type="submit">
+          Да
         </button>
       </form>
     </div>
@@ -96,7 +132,10 @@
       <div class="element__description">
         <h2 class="element__title" title="">
         </h2>
-        <button class="element__like page-hover" type="button"></button>
+        <div class="element__like-block">
+          <button class="element__like page-hover" type="button"></button>
+          <p class="element__like-count">3065</p>
+        </div>
       </div>
       <button class="element__trash page-hover" type="button"></button>
     </article>

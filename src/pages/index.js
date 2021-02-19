@@ -14,7 +14,12 @@ const editProfileForm = document.forms['edit-profile'];
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
 const editProfileDescr = editProfileForm.querySelector('.popup__edit-description');
 
+const editAvatarBtn = document.querySelector('.profile__edit-avatar');
+
 const addCardBtn = document.querySelector('.profile__add-button');
+
+const removeCardForm = document.forms['remove-card'];
+const removeCardId = removeCardForm.querySelector('.popup__edit-name');
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-20',
@@ -27,6 +32,7 @@ const api = new Api({
 const userInfo = new UserInfo({
   userNameSelector: '.profile__name',
   userInfoSelector: '.profile__description',
+  userAvatarSelector: '.profile__avatar'
 })
 
 
@@ -36,6 +42,11 @@ function createCard(item) {
   const card = new Card({
     handleCardClick: (imageName, imageSrc) => {
       viewerCard.open(imageName, imageSrc);
+    },
+    handleRemoveClick: (id) => {
+      removeCardId.value = id;
+      formRemoveCard.open();
+      arrayFormValidator['remove-card'].validationOpeningForm();
     },
     removeCardApi: (id) => {
       return api.removeCard(id)
@@ -71,7 +82,7 @@ api.getInitialCards()
 
 api.getPrifile()
   .then((data) => {
-    userInfo.setUserInfo(data.name, data.about);
+    userInfo.setUserInfo(data);
   })
   .catch((err) => { console.log(`Ошибка: ${err}`) });
 
@@ -79,8 +90,8 @@ api.getPrifile()
 editProfileBtn.addEventListener('click', function () {
   api.getPrifile()
     .then((data) => {
-      editProfileName.value = userInfo.getUserInfo(data).userName;
-      editProfileDescr.value = userInfo.getUserInfo(data).userInfo;
+      editProfileName.value = data.name;
+      editProfileDescr.value = data.about;
       formEditPrifile.open();
       arrayFormValidator['edit-profile'].validationOpeningForm();
     })
@@ -94,7 +105,7 @@ const formEditPrifile = new PopupWithForm(
     submitForm: (formValues) => {
       api.editPrifile({name: formValues['firstname'], about: formValues['about']})
         .then((data) => {
-          userInfo.setUserInfo(data.name, data.about);
+          userInfo.setUserInfo(data);
         })
         .catch((err) => { console.log(`Ошибка: ${err}`) });
 
@@ -104,6 +115,22 @@ const formEditPrifile = new PopupWithForm(
   '.popup_edit-profile'
 );
 formEditPrifile.setEventListeners();
+
+const formEditAvatar = new PopupWithForm(
+  {
+    submitForm: (formValues) => {
+      api.editAvatar({avatar: formValues['link-avatar']})
+        .then((data) => {
+          userInfo.setUserInfo(data);
+        })
+        .catch((err) => { console.log(`Ошибка: ${err}`) });
+
+      formEditAvatar.close();
+    }
+  },
+  '.popup_edit-avatar'
+);
+formEditAvatar.setEventListeners();
 
 const formAddCard = new PopupWithForm(
   {
@@ -122,6 +149,23 @@ const formAddCard = new PopupWithForm(
   '.popup_add-card'
 );
 formAddCard.setEventListeners();
+
+const formRemoveCard = new PopupWithForm(
+  {
+    submitForm: (formValues) => {
+      api.removeCard({_id: formValues['card-id']})
+        .then(() => {})
+        .catch((err) => { console.log(`Ошибка: ${err}`) });
+
+
+      formRemoveCard.close();
+    }
+  },
+  '.popup_remove-card'
+);
+formRemoveCard.setEventListeners();
+
+
 
 const viewerCard = new PopupWithImage('.popup_viewer');
 viewerCard.setEventListeners();
@@ -157,4 +201,9 @@ const arrayFormValidator = enableValidationAll(settingsPage);
 addCardBtn.addEventListener('click', function () {
   formAddCard.open();
   arrayFormValidator['add-card'].validationOpeningForm();
+});
+
+editAvatarBtn.addEventListener('click', function () {
+  formEditAvatar.open();
+  arrayFormValidator['edit-avatar'].validationOpeningForm();
 });

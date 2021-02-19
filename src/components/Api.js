@@ -29,6 +29,19 @@ export class Api {
       })
   }
 
+  editAvatar(data) {
+
+    return fetch(`${this._baseUrl}/users/me/avatar `, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify(data)
+    })
+      .then((res) => {
+        if (res.ok) {return Promise.resolve(res.json())}
+        else { return Promise.reject(res.status) }
+      })
+  }
+
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'GET',
