@@ -1,7 +1,7 @@
 export class Section {
   constructor({ items, renderer }, selector) {
 
-    this._items = items;
+    //this._items = items;
     this._renderer = renderer;
     this._sectionDOM = document.querySelector(selector);
   }
@@ -11,7 +11,7 @@ export class Section {
   }
 
   addArrItems() {
-    this._items.forEach((item) => this.addItem(item));
+    //this._items.forEach((item) => this.addItem(item));
   }
 
 

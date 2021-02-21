@@ -9,7 +9,6 @@
   z-index: 2;
   min-width: 430px;
   max-width: 430px;
-  min-height: 330px;
   padding: 36px;
   box-sizing: border-box;
 }
@@ -17,7 +16,6 @@
 @media screen and (max-width: 700px) {
   .popup__container {
     min-width: 282px;
-    min-height: 322px;
     padding: 25px 22px;
   }
 }

@@ -1,5 +1,4 @@
 import './index.css';
-import { initialCards } from '../utils/initialCards.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -8,7 +7,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 
-// Передаем классы в переменные
+
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileForm = document.forms['edit-profile'];
 const editProfileName = editProfileForm.querySelector('.popup__edit-name');
@@ -30,52 +29,66 @@ const api = new Api({
 });
 
 const userInfo = new UserInfo({
-  userNameSelector: '.profile__name',
-  userInfoSelector: '.profile__description',
-  userAvatarSelector: '.profile__avatar'
+  name: '.profile__name',
+  about: '.profile__description',
+  avatar: '.profile__avatar'
 })
 
-
-
-// Функция формирования карточки
-function createCard(item) {
+function createCard(item, profileId) {
   const card = new Card({
     handleCardClick: (imageName, imageSrc) => {
       viewerCard.open(imageName, imageSrc);
     },
-    handleRemoveClick: (id) => {
+    handleRemoveClick: (id, action) => {
       removeCardId.value = id;
-      formRemoveCard.open();
+      formRemoveCard.open(action);
       arrayFormValidator['remove-card'].validationOpeningForm();
     },
-    removeCardApi: (id) => {
-      return api.removeCard(id)
-        .then(() => {})
-        .catch((err) => { console.log(`Ошибка: ${err}`) });
-    }
+    handleLikeClick: (id, isLiked) => {
+      console.log(isLiked);
+      return api.likeCard(id, isLiked)
+        .then((item) => {
+          return item.likes;
+        })
+        .catch((err) => { console.log(`Ошибка: ${err}`) })
+    },
+    profileId: profileId
   },
     item, '#element-template'
   );
+
   return card.makeNewElement();
 }
 
+const sectionElements = new Section(
+  {
+    renderer: (sectionPage, newElement) => {
+      sectionPage.prepend(newElement);
+    }
+  },
+  '.elements'
+);
+
+sectionElements.addArrItems();
+
 api.getInitialCards()
   .then((data) => {
-    const arrElements = data.map(function (item) {
-      return createCard(item);
-    });
+    api.getPrifile()
+      .then((profile) => {
+        const arrElements = data.map(function (item) {
+          return createCard(item, profile._id);
+        });
+        arrElements.sort((prev, next) =>
+          prev.createdAt < next.createdAt ? 1 : -1
+        );
 
-    const sectionElements = new Section(
-      {
-        items: arrElements,
-        renderer: (sectionPage, newElement) => {
-          sectionPage.prepend(newElement);
-        }
-      },
-      '.elements'
-    );
+        arrElements.forEach(item => sectionElements.addItem(item));
 
-    sectionElements.addArrItems();
+
+      })
+      .catch((err) => { console.log(`Ошибка: ${err}`) })
+
+
   })
   .catch((err) => { console.log(`Ошибка: ${err}`) });
 //
@@ -90,26 +103,30 @@ api.getPrifile()
 editProfileBtn.addEventListener('click', function () {
   api.getPrifile()
     .then((data) => {
-      editProfileName.value = data.name;
-      editProfileDescr.value = data.about;
+      editProfileName.value = userInfo.getUserInfo(data).userName;
+      editProfileDescr.value = userInfo.getUserInfo(data).userInfo;
       formEditPrifile.open();
       arrayFormValidator['edit-profile'].validationOpeningForm();
     })
 
 });
 
-
-
 const formEditPrifile = new PopupWithForm(
   {
-    submitForm: (formValues) => {
-      api.editPrifile({name: formValues['firstname'], about: formValues['about']})
+    submitForm: (formValues, button) => {
+      button.textContent = 'Сохранение...';
+      api.editPrifile({ name: formValues['firstname'], about: formValues['about'] })
         .then((data) => {
+          button.textContent = 'Сохранено';
           userInfo.setUserInfo(data);
+          formEditPrifile.close();
         })
-        .catch((err) => { console.log(`Ошибка: ${err}`) });
+        .catch((err) => {
+          button.textContent = 'Ошибка. Попробуйте еще раз!';
+          console.log(`Ошибка: ${err}`);
+        });
 
-      formEditPrifile.close();
+
     }
   },
   '.popup_edit-profile'
@@ -118,14 +135,20 @@ formEditPrifile.setEventListeners();
 
 const formEditAvatar = new PopupWithForm(
   {
-    submitForm: (formValues) => {
-      api.editAvatar({avatar: formValues['link-avatar']})
+    submitForm: (formValues, button) => {
+      button.textContent = 'Сохранение...';
+      api.editAvatar({ avatar: formValues['link-avatar'] })
         .then((data) => {
+          button.textContent = 'Сохранено';
           userInfo.setUserInfo(data);
+          formEditAvatar.close();
         })
-        .catch((err) => { console.log(`Ошибка: ${err}`) });
+        .catch((err) => {
+          button.textContent = 'Ошибка. Попробуйте еще раз!';
+          console.log(`Ошибка: ${err}`);
+        });
 
-      formEditAvatar.close();
+
     }
   },
   '.popup_edit-avatar'
@@ -134,16 +157,28 @@ formEditAvatar.setEventListeners();
 
 const formAddCard = new PopupWithForm(
   {
-    submitForm: (formValues) => {
+    submitForm: (formValues, button) => {
+      button.textContent = 'Сохранение...';
       api.addCard({ name: formValues['place-name'], link: formValues['link-image'] })
         .then((data) => {
-          const makedElement = createCard(data.name, data.link);
+          api.getPrifile()
+            .then((profile) => {
+              const makedElement = createCard(data, profile._id);
 
-          sectionElements.addItem(makedElement);
+              sectionElements.addItem(makedElement);
+            })
+            .catch((err) => { console.log(`Ошибка: ${err}`) });
+
+          button.textContent = 'Сохранено';
+          formAddCard.close();
+
         })
-        .catch((err) => { console.log(`Ошибка: ${err}`) });
+        .catch((err) => {
+          button.textContent = 'Ошибка. Попробуйте еще раз!';
+          console.log(`Ошибка: ${err}`)
+        })
 
-      formAddCard.close();
+
     }
   },
   '.popup_add-card'
@@ -152,13 +187,20 @@ formAddCard.setEventListeners();
 
 const formRemoveCard = new PopupWithForm(
   {
-    submitForm: (formValues) => {
-      api.removeCard({_id: formValues['card-id']})
-        .then(() => {})
-        .catch((err) => { console.log(`Ошибка: ${err}`) });
+    submitForm: (formValues, button) => {
+      button.textContent = 'Удаление...';
+      api.removeCard(formValues['card-id'])
+        .then(() => {
+          button.textContent = 'Карточка удалена';
+          formRemoveCard.close();
+        })
+        .catch((err) => {
+          button.textContent = 'Ошибка. Попробуйте еще раз!';
+          console.log(`Ошибка: ${err}`);
+        });
 
 
-      formRemoveCard.close();
+
     }
   },
   '.popup_remove-card'

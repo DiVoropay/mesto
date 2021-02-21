@@ -11,7 +11,7 @@ export class Api {
       headers: this._headers
     })
       .then((res) => {
-        if (res.ok) {return Promise.resolve(res.json())}
+        if (res.ok) { return Promise.resolve(res.json()) }
         else { return Promise.reject(res.status) }
       })
   }
@@ -24,7 +24,7 @@ export class Api {
       body: JSON.stringify(data)
     })
       .then((res) => {
-        if (res.ok) {return Promise.resolve(res.json())}
+        if (res.ok) { return Promise.resolve(res.json()) }
         else { return Promise.reject(res.status) }
       })
   }
@@ -37,7 +37,7 @@ export class Api {
       body: JSON.stringify(data)
     })
       .then((res) => {
-        if (res.ok) {return Promise.resolve(res.json())}
+        if (res.ok) { return Promise.resolve(res.json()) }
         else { return Promise.reject(res.status) }
       })
   }
@@ -82,11 +82,10 @@ export class Api {
       });
   }
 
-  likeCard(data) {
-    return fetch(`${this._baseUrl}/cards/${id}`, {
-      method: 'PATCH',
+  likeCard(id, isLiked) {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers,
-      body: JSON.stringify(data)
     })
       .then((res) => {
         if (res.ok) {
