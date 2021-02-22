@@ -14,16 +14,29 @@ class Card {
     this._handleLikeClick = handleLikeClick;
     this._profileId = profileId;
 
-    this._isLiked = false;
+    this._elementTemplate = document.querySelector(this._templateClass).content;
+    this._element;
+    this._elementTitle;
+    this._elementImage;
+    this._elementTrashBtn;
     this._elementLikeBtn;
     this._elementLikeCount;
+
+    this._isLiked = false;
+  }
+
+  _findElmentsMarkup() {
+    this._elementTitle = this._element.querySelector('.element__title');
+    this._elementImage = this._element.querySelector('.element__image');
+    this._elementTrashBtn = this._element.querySelector('.element__trash');
+    this._elementLikeBtn = this._element.querySelector('.element__like');
+    this._elementLikeCount = this._element.querySelector('.element__like-count');
 
   }
 
   _getMarkupElement() {
-    const elementTemplate = document.querySelector(this._templateClass).content;
+    return this._elementTemplate.cloneNode(true);
 
-    return elementTemplate.cloneNode(true);
   };
 
   _removeElement(evt) {
@@ -43,47 +56,43 @@ class Card {
   }
 
   _setEventListeners() {
-    const elementTrashBtn = this._element.querySelector('.element__trash');
-    this._elementLikeBtn = this._element.querySelector('.element__like');
-    const elementImage = this._element.querySelector('.element__image');
-
-    this._elementLikeCount = this._element.querySelector('.element__like-count');
-
-    this._elementLikeBtn.addEventListener('click', (evt) => {
+    this._elementLikeBtn.addEventListener('click', () => {
       this._handleLikeClick(this._id, this._isLiked).
         then((likes) => { this._getLikes(likes) })
     });
 
-    elementImage.addEventListener('click', () => {
+    this._elementImage.addEventListener('click', () => {
       this._handleCardClick(this._title, this._linkImage);
     });
 
-    elementTrashBtn.addEventListener('click', (evt) => {
-      this._handleRemoveClick(this._id);
-      this._removeElement(evt);
-    });
+    if (this._profileId === this._ownerId) {
+      this._elementTrashBtn.addEventListener('click', (evt) => {
+        this._handleRemoveClick(
+          this._id,
+          () => { this._removeElement(evt) }
+        );
+      });
+    }
+
   }
 
 
   makeNewElement() {
     this._element = this._getMarkupElement();
+    this._findElmentsMarkup();
     this._setEventListeners();
 
-    const elementTrashBtn = this._element.querySelector('.element__trash');
     if (this._profileId === this._ownerId) {
     } else {
-      elementTrashBtn.remove();
+      this._elementTrashBtn.remove();
     }
 
     this._getLikes(this._likes);
 
-    const elementTitle = this._element.querySelector('.element__title');
-    const elementImage = this._element.querySelector('.element__image');
-
-    elementTitle.textContent = this._title;
-    elementTitle.title = this._title;
-    elementImage.alt = `Фотография ${this._title}`;
-    elementImage.src = this._linkImage;
+    this._elementTitle.textContent = this._title;
+    this._elementTitle.title = this._title;
+    this._elementImage.alt = `Фотография ${this._title}`;
+    this._elementImage.src = this._linkImage;
 
     return this._element;
   };

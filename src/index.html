@@ -17,16 +17,17 @@
 
       <section class="profile content__profile">
         <button class="profile__edit-avatar" type="button">
-          <img class="profile__avatar page-hover" src=<%=require("./images/profile/avatar.jpg")%>  alt="Фотография профиля">
+          <img class="profile__avatar" src=<%=require("./images/profile/avatar.png")%>  alt="Фотография профиля">
+          <div class="profile__edit-icon"></div>
         </button>
 
 
         <div class="profile__info">
           <div class="profile__flex-row">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button class="profile__edit-button page-hover" type="button"></button>
           </div>
-          <p class="profile__description">Исследователь океана</p>
+          <p class="profile__description"></p>
         </div>
         <button class="profile__add-button page-hover" type="button"></button>
       </section>
@@ -105,10 +106,6 @@
         <h2 class="form__title popup__title">
           Вы уверены?
         </h2>
-        <label class="form__field">
-          <input class="form__input popup__edit-name" type="hidden" name="card-id" placeholder="ID" minlength="2" maxlength="30" required>
-          <span class="form__tip card-id-error"></span>
-        </label>
         <button class="form__button-submit popup__save-button page-hover" type="submit">
           Да
         </button>
@@ -134,7 +131,7 @@
         </h2>
         <div class="element__like-block">
           <button class="element__like page-hover" type="button"></button>
-          <p class="element__like-count">3065</p>
+          <p class="element__like-count"></p>
         </div>
       </div>
       <button class="element__trash page-hover" type="button"></button>
